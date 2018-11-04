@@ -14,6 +14,14 @@ public class Tema {
 	private int idTema;
 	@Column
 	private String descricao;
+	
+	public Tema() {
+		
+	}
+	
+	public Tema(int idTema) {
+		this.idTema = idTema;
+	}
 
 	public int getIdTema() {
 		return idTema;
