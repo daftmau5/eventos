@@ -16,6 +16,14 @@ public class Atracao {
 	private String nome;
 	@Column
 	private String descricao;
+	
+	public Atracao() {
+		
+	}
+	
+	public Atracao(int id) {
+		this.idAtracao = id;
+	}
 
 	public int getIdAtracao() {
 		return idAtracao;

@@ -1,9 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ page import="br.com.eventos.model.Evento, br.com.eventos.model.Atracao, br.com.eventos.model.Tema, br.com.eventos.model.Local, java.util.List, java.util.ArrayList"%>   
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt">
 <head>
-
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
@@ -28,6 +29,35 @@
 </head>
 
 <body>
+
+	<%  String msg = (String)session.getAttribute("MENSAGEM");
+		List<Tema> listaTema = (List<Tema>)session.getAttribute("LISTA_TEMA");
+		List<Atracao> listaAtracao = (List<Atracao>)session.getAttribute("LISTA_ATRACAO");
+		List<Local> listaLocal  = (List<Local>)session.getAttribute("LISTA_LOCAL");
+		if(listaTema == null){
+			listaTema = new ArrayList<Tema>();
+		} else {
+			session.setAttribute("LISTA_TEMA", null);
+		}
+		
+		if(listaAtracao == null){
+			listaAtracao = new ArrayList<Atracao>();
+		} else {
+			session.setAttribute("LISTA_ATRACAO", null);
+		}
+		
+		if(listaLocal == null){
+			listaLocal = new ArrayList<Local>();
+		} else {
+			session.setAttribute("LISTA_LOCAL", null);
+		}
+		
+		if(msg != null){
+			session.setAttribute("MENSAGEM", null);
+	%>
+		<h3 class="alert alert-danger"><%=msg%></h3>
+	<%  } %>
+	
 	<div id="wrapper">
 
 		<!-- Sidebar -->
@@ -77,28 +107,28 @@
 				<h1>Cadastro de Eventos</h1>
 				<div class="form-group">
 					<label for="nome">Nome:</label> 
-					<input type="text" class="form-control" id="nome" placeholder="Digite o Nome do Evento">
+					<input type="text" class="form-control" id="txtNomeEvento" placeholder="Digite o Nome do Evento">
 				</div>
 				<div class="form-group">
-					<label for="nome">Descrição:</label> 
-					<input type="text" class="form-control" id="descricao" placeholder="Digite a Descrição do Evento">
+					<label for="nome">Descri��o:</label> 
+					<input type="text" class="form-control" id="txtDescricaoEvento" placeholder="Digite a Descrição do Evento">
 				</div>
 				
 				<div class="form-group">
 				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    Escolha um Tema
 				  </button>
-				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    <a class="dropdown-item" href="#">Tema 1</a>
-				    <a class="dropdown-item" href="#">Tema 2</a>
-				    <a class="dropdown-item" href="#">Tema 3</a>
+				  <div class="dropdown-menu" name="idTema" aria-labelledby="dropdownMenuButton">
+				    <% for(Tema t : listaTema){  %>
+				    <a class="dropdown-item" value="<%=t.getIdTema()%>"><%=t.getDescricao()%></a>
+				    <% } %>
 				  </div>
 				</div>
 
 		        <div class="form-group">
 		            <label for="data-pagamento">Data:</label>
 		            <div class="input-group date" data-date-format="dd.mm.yyyy">
-		               <input  type="text" class="form-control" placeholder="dd.mm.yyyy">
+		               <input  type="text" class="form-control" placeholder="dd.mm.yyyy" id="txtDataEvento">
 		               <div class="input-group-addon" >
 		                    <span class="glyphicon glyphicon-th"></span>
 		                </div>
@@ -111,12 +141,12 @@
     			
     			<div class="form-group">
 				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    Escolha uma Atração
+				    Escolha uma Atra��o
 				  </button>
-				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    <a class="dropdown-item" href="#">Atração 1</a>
-				    <a class="dropdown-item" href="#">Atração 2</a>
-				    <a class="dropdown-item" href="#">Atração 3</a>
+				  <div class="dropdown-menu" name="idAtracao" aria-labelledby="dropdownMenuButton">
+				    <% for(Atracao a : listaAtracao){  %>
+				    <a class="dropdown-item" value="<%=a.getIdAtracao()%>"><%=a.getNome()%></a>
+				    <% } %>
 				  </div>
 				</div>
 			 
@@ -124,16 +154,16 @@
 				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				    Escolha um Local
 				  </button>
-				  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				    <a class="dropdown-item" href="#">Local 1</a>
-				    <a class="dropdown-item" href="#">Local 2</a>
-				    <a class="dropdown-item" href="#">Local 3</a>
+				  <div class="dropdown-menu" name="idLocal" aria-labelledby="dropdownMenuButton">
+				    <% for(Local l : listaLocal){  %>
+				    <a class="dropdown-item" value="<%=l.getIdLocal()%>"><%=l.getNome()%></a>
+				    <% } %>
 				  </div>
 				</div>
 				  
 				<div class="form-group">
-					<label for="nome">Preço:</label> 
-					<input type="text" class="form-control" id="nome" placeholder="R$">
+					<label for="nome">Pre�o:</label> 
+					<input type="text" class="form-control" id="txtPrecoEvento" placeholder="R$">
 				</div>
 				
 				<div class="form-group">

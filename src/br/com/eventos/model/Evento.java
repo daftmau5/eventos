@@ -26,6 +26,8 @@ public class Evento {
 	private Tema tema;
 	@Column
 	private String descricao;
+	@Column
+	private String nome;
 	@ManyToOne
 	private Atracao atracao;
 	@Column
@@ -97,6 +99,14 @@ public class Evento {
 
 	public void setData(Calendar data) {
 		this.data = data;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 

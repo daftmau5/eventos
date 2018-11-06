@@ -18,7 +18,7 @@ public class Local {
 	private String telefone;
 	@Column
 	private int capacidade;
-	// variável para determinar se existe área para fumantes
+	// variï¿½vel para determinar se existe ï¿½rea para fumantes
 	@Column
 	private boolean areaFumante;
 	private int avaliacao;
@@ -26,7 +26,14 @@ public class Local {
 	private String endereco;
 	@Column
 	private boolean vip;
-
+	
+	public Local() {
+		
+	}
+	
+	public Local(int id) {
+		this.idLocal = id;
+	}
 	public int getIdLocal() {
 		return idLocal;
 	}
