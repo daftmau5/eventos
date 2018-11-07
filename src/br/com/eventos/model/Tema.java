@@ -1,27 +1,10 @@
 package br.com.eventos.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
 public class Tema {
+
+private int idTema;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idTema;
-	@Column
 	private String descricao;
-	
-	public Tema() {
-		
-	}
-	
-	public Tema(int idTema) {
-		this.idTema = idTema;
-	}
 
 	public int getIdTema() {
 		return idTema;
@@ -39,7 +22,7 @@ public class Tema {
 		this.descricao = descricao;
 	}
 	
-	@Override
+	
 	public String toString() {
 		return descricao;
 	}
