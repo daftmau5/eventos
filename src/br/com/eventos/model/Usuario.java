@@ -1,28 +1,13 @@
 package br.com.eventos.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
-@Entity
 public class Usuario {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUsuario;
-	@Column
 	private String login;
-	@Column
 	private String senha;
-	@Column
 	private String CPF;
-	@Column
 	private String email;
-	@Column
 	private String endereco;
-	@Column
 	private String telefone;
 
 	public int getIdUsuario() {

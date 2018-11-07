@@ -34,32 +34,8 @@
                     </h2>
                 </li>
                 <li>
-					<h4 style="color:white;">Evento</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="#">Cadastrar</a>
-						<a href="#">Reservas</a>
-					</ul>
-                </li>
-                <li>
-					<h4 style="color:white;">Local</h4>
-					<ul>
-						<a href="#">Buscar</a>
-						<a href="#">Cadastrar</a>
-					</ul>
-                </li>
-                <li>
-					<h4 style="color:white;">Atração</h4>
-					<ul>
-						<a href="#">Buscar</a>
-						<a href="#">Cadastrar</a>
-					</ul>
-                </li>
-                <li>
-					<h4 style="color:white;">Tema</h4>
-					<ul>
-						<a href="#">Buscar</a>
-						<a href="#">Cadastrar</a>
+						<a href="./cadastro_usuario.jsp">Cadastro</a>
 					</ul>
                 </li>
             </ul>
@@ -67,60 +43,23 @@
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
+		<div class="col-md-4"></div>
 		<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
-        <div id="page-content-wrapper">
+        <div id="page-content-wrapper" class="col-md-4">
+			<h1 style="color:#6495ED;">E-vents</h1>
             <div class="container-fluid">
-                <h1>Eventos Disponíveis</h1>
-                <table class="table table-striped">
-				  <tr>
-					<th>Nome</th>
-					<th>Tipo</th> 
-					<th>Data</th>
-					<th>+Info</th>
-				  </tr>
-				  <tr style="padding-top:20px; padding-bottom:20px; padding-right:20px;">
-					<td>Evento Teste</td>
-					<td>Show de Rock</td> 
-					<td>01/01/2019</td>
-					<td>
-						<a href="#" class="btn btn-info btn-sm">
-          					<span class="glyphicon glyphicon-plus"></span> Visualizar
-        				</a>
-					</td>
-				  </tr>
-				  <tr>
-					<td>Evento Teste</td>
-					<td>Show de Rock</td> 
-					<td>01/01/2019</td>
-					  <td>
-						<a href="#" class="btn btn-info btn-sm">
-          					<span class="glyphicon glyphicon-plus"></span> Visualizar
-        				</a>
-					</td>
-				  </tr>
-					<tr>
-					<td>Evento Teste</td>
-					<td>Show de Rock</td> 
-					<td>01/01/2019</td>
-						<td>
-						<a href="#" class="btn btn-info btn-sm">
-          					<span class="glyphicon glyphicon-plus"></span> Visualizar
-        				</a>
-					</td>
-				  </tr>
-				  <tr>
-					<td>Evento Teste</td>
-					<td>Show de Rock</td> 
-					<td>01/01/2019</td>
-						<td>
-						<a href="#" class="btn btn-info btn-sm">
-          					<span class="glyphicon glyphicon-plus"></span> Visualizar
-        				</a>
-					</td>
-				  </tr>
-				</table>             
+                  <div class="wrapper">
+					<form class="form-signin" id="formLogin" action="./ControllerUsuario" method="get">       
+					  <h2 class="form-signin-heading">Bem Vindo!</h2>
+					  <input type="text" class="form-control" name="login" id="login" placeholder="Email Address" required="" autofocus="" />
+					  <input type="password" class="form-control" name="senha" id="senha" placeholder="Password" required=""/> 
+					  <hr>
+					  <button type="submit" class="btn btn-lg btn-primary btn-block" name="cmd" value="login">Login</button>
+					</form>	  
+				  </div>
             </div>
         </div>
+		<div class="col-md-4"></div>
         <!-- /#page-content-wrapper -->
 
     </div>

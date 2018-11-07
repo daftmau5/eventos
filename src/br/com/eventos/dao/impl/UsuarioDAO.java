@@ -1,56 +1,148 @@
 package br.com.eventos.dao.impl;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 import br.com.eventos.dao.EventosDAO;
 import br.com.eventos.model.Usuario;
 
 public class UsuarioDAO implements EventosDAO<Usuario> {
 
-	private EntityManagerFactory emf;
+	private Connection con;
+	private ResultSet rs;
+
+	public ResultSet executeQuery(String sql, Statement stmt) throws SQLException {
+		ResultSet rs = stmt.executeQuery(sql);
+		return rs;
+	}
 
 	public UsuarioDAO() {
-		emf = Persistence.createEntityManagerFactory("EVENTOS");
-	}	
-	
-	@Override
-	public void adicionar(Usuario o) throws DAOExcep {
 		try {
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
-			em.persist(o);
-			em.getTransaction().commit();
-			em.close();
-		}catch(Exception e) {
-			throw new DAOExcep(e);
+			//Class.forName("org.postgresql.Driver");
+			Class.forName("org.mariadb.jdbc.Driver");
+			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
+			con = DriverManager.getConnection(urldb);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Usuario checkLogin(String login, String senha) {
+		System.out.println("A");
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+		try {
+			String sql = "select idUsuario, login, email, senha, cpf, endereco, telefone from tbUsuario where login = ? and senha = ?";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, login);
+			stmt.setString(2, senha);
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Usuario u = new Usuario();
+				u.setIdUsuario(rs.getInt(1));
+				u.setLogin(rs.getString(2));
+				u.setEmail(rs.getString(3));
+				u.setSenha(rs.getString(4));
+				u.setCPF(rs.getString(5));
+				u.setEndereco(rs.getString(6));
+				u.setTelefone(rs.getString(7));
+				usuarios.add(u);
+				System.out.println("Passou");
+			}
+
+			if (usuarios.size() < 1) {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return usuarios.get(0);
+
+	}
+
+	@Override
+	public void adicionar(Usuario u) throws DAOExcep {
+		try {
+			String sql = "INSERT INTO tbUsuario (login, email, senha, cpf, endereco, telefone) VALUES (?, ?, ?, ?, ?, ?)";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, u.getLogin());
+			stmt.setString(2, u.getEmail());
+			stmt.setString(3, u.getSenha());
+			stmt.setString(4, u.getCPF());
+			stmt.setString(5, u.getEndereco());
+			stmt.setString(6, u.getTelefone());
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public List<Usuario> listar() {
-		return null;
+		ArrayList<Usuario> array = new ArrayList<>();
+		try {
+			ResultSet rs = executeQuery("select * from tbUsuario;", con.createStatement());
+			while (rs.next()) {
+				Usuario a = new Usuario();
+				a.setIdUsuario(rs.getInt(1));
+				a.setLogin(rs.getString(2));
+				a.setEmail(rs.getString(3));
+				a.setSenha(rs.getString(4));
+				a.setCPF(rs.getString(5));
+				a.setEndereco(rs.getString(6));
+				a.setTelefone(rs.getString(7));
+				array.add(a);
+			}
+			return array;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return array;
+		}
 	}
-	
+
 	@Override
 	public Usuario pesquisarPorId(long id) throws DAOExcep {
-		Usuario u = new Usuario();
 		try {
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
-			u = em.find(Usuario.class, id);
-			em.getTransaction().commit();
-			em.close();
-		}catch(Exception e) {
-			throw new DAOExcep(e);
+			Usuario u = new Usuario();
+			String sql = "select * from tbUsuario where idUsuario = ?";
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setLong(1, id);
+			ResultSet rs = preparedStatement.executeQuery(sql);
+			while (rs.next()) {
+				u.setIdUsuario(rs.getInt(1));
+				u.setLogin(rs.getString(2));
+				u.setEmail(rs.getString(3));
+				u.setSenha(rs.getString(4));
+				u.setCPF(rs.getString(5));
+				u.setEndereco(rs.getString(6));
+				u.setTelefone(rs.getString(7));
+			}
+			return u;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
 		}
-		return u;
 	}
 
 	@Override
 	public void excluir(int id) {
+		try {
+			String sql = "DELETE FROM tbUsuario WHERE idUsuario = ?";
+			PreparedStatement stmt;
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, id);
+			stmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
