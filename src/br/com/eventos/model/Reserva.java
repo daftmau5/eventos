@@ -2,29 +2,21 @@ package br.com.eventos.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-@Entity
+
+
 public class Reserva {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idReserva;
-	@Column
+	
 	private Date data;
-	@ManyToOne
+	
 	private Pagamento modoPagamento;
-	@Column
+	
 	private String status;
-	@OneToMany
+	
 	private Usuario usuario;
-	@ManyToOne
+	
 	private Evento evento;
 
 	public int getIdReserva() {

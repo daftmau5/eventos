@@ -6,15 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
 public class Atracao {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idAtracao;
-	@Column
+	
 	private String nome;
-	@Column
+	
 	private String descricao;
 	
 	public Atracao() {

@@ -1,30 +1,21 @@
 package br.com.eventos.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-
-@Entity
 public class Local {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idLocal;
-	@Column
+	
 	private String nome;
-	@Column
+	
 	private String telefone;
-	@Column
+	
 	private int capacidade;
 	// vari�vel para determinar se existe �rea para fumantes
-	@Column
+	
 	private boolean areaFumante;
 	private int avaliacao;
-	@Column
+	
 	private String endereco;
-	@Column
+	
 	private boolean vip;
 	
 	public Local() {

@@ -14,27 +14,23 @@ import javax.persistence.ManyToOne;
 
 import br.com.eventos.model.Local;
 
-@Entity
 public class Evento {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private int idEvento;
-	@ManyToMany(fetch=FetchType.EAGER)
 	private ArrayList<Usuario> usuariosConfirmados;
-	@ManyToOne
+
 	private Tema tema;
-	@Column
+
 	private String descricao;
-	@Column
+
 	private String nome;
-	@ManyToOne
+
 	private Atracao atracao;
-	@Column
+
 	private Calendar data;
-	@ManyToOne
+
 	private Local local;
-	@Column
+
 	private String preco;
 
 	public int getIdEvento() {
@@ -108,6 +104,5 @@ public class Evento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 
 }

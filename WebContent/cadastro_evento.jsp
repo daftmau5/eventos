@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page import="br.com.eventos.model.Evento, br.com.eventos.model.Atracao, br.com.eventos.model.Tema, br.com.eventos.model.Local, java.util.List, java.util.ArrayList"%>   
+	pageEncoding="ISO-8859-1"%>
+<%@ page
+	import="br.com.eventos.model.Evento, br.com.eventos.model.Atracao, br.com.eventos.model.Tema, br.com.eventos.model.Local, java.util.List, java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -30,34 +31,50 @@
 
 <body>
 
-	<%  String msg = (String)session.getAttribute("MENSAGEM");
-		List<Tema> listaTema = (List<Tema>)session.getAttribute("LISTA_TEMA");
-		List<Atracao> listaAtracao = (List<Atracao>)session.getAttribute("LISTA_ATRACAO");
-		List<Local> listaLocal  = (List<Local>)session.getAttribute("LISTA_LOCAL");
-		if(listaTema == null){
-			listaTema = new ArrayList<Tema>();
-		} else {
-			session.setAttribute("LISTA_TEMA", null);
-		}
-		
-		if(listaAtracao == null){
-			listaAtracao = new ArrayList<Atracao>();
-		} else {
-			session.setAttribute("LISTA_ATRACAO", null);
-		}
-		
-		if(listaLocal == null){
-			listaLocal = new ArrayList<Local>();
-		} else {
-			session.setAttribute("LISTA_LOCAL", null);
-		}
-		
-		if(msg != null){
+	<form action="./ControllerCadastroEvento" method="get">
+
+		<%
+			List<Tema> listaTema = (List<Tema>) session.getAttribute("LISTA_TEMA");
+			List<Atracao> listaAtracao = (List<Atracao>) session.getAttribute("LISTA_ATRACAO");
+			List<Local> listaLocal = (List<Local>) session.getAttribute("LISTA_LOCAL");
+			List<Evento> listaEvento = (List<Evento>) session.getAttribute("LISTA_EVENTO");
+
+			if (listaEvento == null) {
+				listaEvento = new ArrayList<Evento>();
+			} else {
+				session.setAttribute("LISTA", null);
+			}
+
+			if (listaTema == null) {
+				listaTema = new ArrayList<Tema>();
+			} else {
+				session.setAttribute("LISTA_TEMA", null);
+			}
+
+			if (listaAtracao == null) {
+				listaAtracao = new ArrayList<Atracao>();
+			} else {
+				session.setAttribute("LISTA_ATRACAO", null);
+			}
+
+			if (listaLocal == null) {
+				listaLocal = new ArrayList<Local>();
+			} else {
+				session.setAttribute("LISTA_LOCAL", null);
+			}
+		%>
+	</form>
+	<%
+		String msg = (String) session.getAttribute("MENSAGEM");
+
+		if (msg != null) {
 			session.setAttribute("MENSAGEM", null);
 	%>
-		<h3 class="alert alert-danger"><%=msg%></h3>
-	<%  } %>
-	
+	<h3 class="alert alert-danger"><%=msg%></h3>
+	<%
+		}
+	%>
+
 	<div id="wrapper">
 
 		<!-- Sidebar -->
@@ -82,7 +99,7 @@
 					</ul>
 				</li>
 				<li>
-					<h4 style="color: white;">AtraÃ§Ã£o</h4>
+					<h4 style="color: white;">Atração</h4>
 					<ul>
 						<a href="#">Buscar</a>
 						<a href="#">Cadastrar</a>
@@ -102,78 +119,150 @@
 		<!-- Page Content -->
 		<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
 		<div id="page-content-wrapper">
-		<form id="formEvento" action="./Controller" method="post">
-			<div class="container-fluid">
-				<h1>Cadastro de Eventos</h1>
-				<div class="form-group">
-					<label for="nome">Nome:</label> 
-					<input type="text" class="form-control" id="txtNomeEvento" placeholder="Digite o Nome do Evento">
-				</div>
-				<div class="form-group">
-					<label for="nome">Descrição:</label> 
-					<input type="text" class="form-control" id="txtDescricaoEvento" placeholder="Digite a DescriÃ§Ã£o do Evento">
-				</div>
-				
-				<div class="form-group">
-				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    Escolha um Tema
-				  </button>
-				  <div class="dropdown-menu" name="idTema" aria-labelledby="dropdownMenuButton">
-				    <% for(Tema t : listaTema){  %>
-				    <a class="dropdown-item" value="<%=t.getIdTema()%>"><%=t.getDescricao()%></a>
-				    <% } %>
-				  </div>
-				</div>
+			<form id="formEvento" action="./ControllerCadastroEvento"
+				method="post">
+				<div class="container-fluid">
+					<h1>Cadastro de Eventos</h1>
+					<div class="form-group">
+						<label for="nome">Nome:</label> <input type="text"
+							class="form-control" name="txtNomeEvento"
+							placeholder="Digite o Nome do Evento">
+					</div>
+					<div class="form-group">
+						<label for="nome">Descrição:</label> <input type="text"
+							class="form-control" name="txtDescricaoEvento"
+							placeholder="Digite a Descrição do Evento">
+					</div>
 
-		        <div class="form-group">
-		            <label for="data-pagamento">Data:</label>
-		            <div class="input-group date" data-date-format="dd.mm.yyyy">
-		               <input  type="text" class="form-control" placeholder="dd.mm.yyyy" id="txtDataEvento">
-		               <div class="input-group-addon" >
-		                    <span class="glyphicon glyphicon-th"></span>
-		                </div>
-		             </div>
-		        </div>
-            	<script src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js'></script>
-            	<script>
+					<div class="form-group">
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Escolha um
+							Tema</button>
+						<div class="dropdown-menu" name="idTema"
+							aria-labelledby="dropdownMenuButton">
+							<%
+								for (Tema t : listaTema) {
+							%>
+							<a class="dropdown-item" value="<%=t.getIdTema()%>"><%=t.getDescricao()%></a>
+							<%
+								}
+							%>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="data-pagamento">Data:</label>
+						<div class="input-group date" data-date-format="dd.mm.yyyy">
+							<input type="text" class="form-control" placeholder="dd.mm.yyyy"
+								name="txtDataEvento">
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-th"></span>
+							</div>
+						</div>
+					</div>
+					<script
+						src='http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js'></script>
+					<script>
      				$('.input-group.date').datepicker({format: "dd.mm.yyyy"});
     			</script>
-    			
-    			<div class="form-group">
-				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    Escolha uma Atração
-				  </button>
-				  <div class="dropdown-menu" name="idAtracao" aria-labelledby="dropdownMenuButton">
-				    <% for(Atracao a : listaAtracao){  %>
-				    <a class="dropdown-item" value="<%=a.getIdAtracao()%>"><%=a.getNome()%></a>
-				    <% } %>
-				  </div>
+
+					<div class="form-group">
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Escolha uma
+							Atração</button>
+						<div class="dropdown-menu" name="idAtracao"
+							aria-labelledby="dropdownMenuButton">
+							<%
+								for (Atracao a : listaAtracao) {
+							%>
+							<a class="dropdown-item" value="<%=a.getIdAtracao()%>"><%=a.getNome()%></a>
+							<%
+								}
+							%>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<button class="btn btn-secondary dropdown-toggle" type="button"
+							id="dropdownMenuButton" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">Escolha um
+							Local</button>
+						<div class="dropdown-menu" name="idLocal"
+							aria-labelledby="dropdownMenuButton">
+							<%
+								for (Local l : listaLocal) {
+							%>
+							<a class="dropdown-item" value="<%=l.getIdLocal()%>"><%=l.getNome()%></a>
+							<%
+								}
+							%>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="nome">Preço:</label> <input type="text"
+							class="form-control" name="txtPrecoEvento" placeholder="R$">
+					</div>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary" name="cmd"
+							value="cadastrar">Cadastrar</button>
+						<button type="submit" class="btn btn-primary" name="cmd"
+							value="limpar">Limpar</button>
+					</div>
 				</div>
-			 
-			   <div class="form-group">
-				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				    Escolha um Local
-				  </button>
-				  <div class="dropdown-menu" name="idLocal" aria-labelledby="dropdownMenuButton">
-				    <% for(Local l : listaLocal){  %>
-				    <a class="dropdown-item" value="<%=l.getIdLocal()%>"><%=l.getNome()%></a>
-				    <% } %>
-				  </div>
-				</div>
-				  
-				<div class="form-group">
-					<label for="nome">Preço:</label> 
-					<input type="text" class="form-control" id="txtPrecoEvento" placeholder="R$">
-				</div>
+
+				<div class="container">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Descrição</th>
+								<th>Tema</th>
+								<th>Atração</th>
+								<th>Local</th>
+								<th>Data</th>
+								<th>Preço</th>
+							</tr>
+						</thead>
+						<tbody>
+										<%
+					if (listaEvento.size() > 0) {
 				
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary" name="cmd" value="cadastrar">Cadastrar</button>
-					<button type="submit" class="btn btn-primary" name="cmd" value="limpar">Limpar</button>
-				</div>				
-		      </div>	
-			  
- 			</form>
-						
+							
+								for (Evento e : listaEvento) {
+							%>
+							<tr>
+								<td><%=e.getDescricao()%></td>
+								<td><%=e.getTema().getDescricao()%></td>
+								<td><%=e.getAtracao().getNome()%></td>
+								<td><%=e.getLocal().getNome()%></td>
+								<td><%=e.getData()%></td>
+								<td><%=e.getPreco()%></td>
+								<td>
+									<div class="form-group">
+										<button type="button" class="btn btn-primary"
+											onclick="remover(<%=e.getIdEvento()%>);">Remover</button>
+										<button type="button" class="btn btn-primary"
+											onclick="editar(<%=e.getIdEvento()%>);">Editar</button>
+
+									</div>
+
+								</td>
+							</tr>
+							<%
+								}
+							%>
+						</tbody>
+					</table>
+				</div>
+				<%
+					}
+				%>
+
+			</form>
+
 		</div>
 		<!-- /#page-content-wrapper -->
 

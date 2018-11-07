@@ -7,19 +7,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-@Entity
+
 public class Funcao {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private int idFuncao;
-	@Column
+	
 	private boolean organizador;
-	@Column
+	
 	private boolean cliente;
-	@Column
+	
 	private boolean adm;
-	@ManyToMany
+	
 	private Usuario usuario;
 
 	public int getIdFuncao() {
