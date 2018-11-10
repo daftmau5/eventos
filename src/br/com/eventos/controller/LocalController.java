@@ -65,6 +65,6 @@ public class LocalController extends HttpServlet {
 			msg = "erro ao adicionar este local";
 		}
 		session.setAttribute("MENSAGEM", msg);
-		response.sendRedirect("./cadastro_local.jsp");
+		response.sendRedirect("./cadastro_concluido.jsp");
 	}
 }
