@@ -38,9 +38,9 @@ public class ControllerBuscaAtracao extends HttpServlet {
 			if("pesquisar".equals(cmd)) {
 				String id = request.getParameter("txtIDAtracao");
 				Long id2 = Long.parseLong(id);
-				List<Atracao> lista = (List<Atracao>) ad.pesquisarPorId(id2);
+				List<Atracao> lista = (List<Atracao>) ad.listarById(id2);
 				session.setAttribute("LISTA", lista);
-				msg = "Foram encontrados " + lista.size() + " Atrações";
+				msg = "Foram encontrados " + lista.size() + " Atraï¿½ï¿½es";
 			}
 			else if ("limpar".equals(cmd)) {
 				request.getParameter("txtNomeAtracao");
@@ -48,7 +48,7 @@ public class ControllerBuscaAtracao extends HttpServlet {
 			
 		}catch(DAOExcep | NumberFormatException e) {
 			e.printStackTrace();
-			msg = "Erro ao acessar cadastro de atração";
+			msg = "Erro ao acessar cadastro de atraï¿½ï¿½o";
 			msg += "\n\n" + e.getMessage() + "\n";
 			for (StackTraceElement trace : e.getStackTrace()) {
 				msg += trace.toString();

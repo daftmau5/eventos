@@ -9,10 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.eventos.dao.EventosDAO;
 import br.com.eventos.model.Atracao;
 
-public class AtracaoDAO implements EventosDAO<Atracao>{
+public class AtracaoDAO {
 	
 	Connection con;
 	
@@ -23,8 +22,11 @@ public class AtracaoDAO implements EventosDAO<Atracao>{
 	
 	public AtracaoDAO() {
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/eventos?user=root&password=123456");
+            //Class.forName("org.mariadb.jdbc.Driver");
+            //con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/eventos?user=root&password=123456");
+        	Class.forName("org.mariadb.jdbc.Driver");
+			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
+			con = DriverManager.getConnection(urldb);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -32,7 +34,6 @@ public class AtracaoDAO implements EventosDAO<Atracao>{
         }
     }
 
-	@Override
 	public void adicionar(Atracao a) throws DAOExcep {
 		try {
             String sql = "INSERT INTO tbAtracao (nome, descricao) VALUES (?, ?)";
@@ -45,7 +46,6 @@ public class AtracaoDAO implements EventosDAO<Atracao>{
         }
 	}
 
-	@Override
 	public List<Atracao> listar() throws DAOExcep {
 		List<Atracao> array = new ArrayList<>();
 		String SQL = "SELECT * FROM tbAtracao;";
@@ -66,9 +66,8 @@ public class AtracaoDAO implements EventosDAO<Atracao>{
 		}	
 	}
 
-	@Override
 	public void excluir(int id) throws DAOExcep {
-		String sql = "DELETE FROM tbAtracao WHERE id = ?";
+		String sql = "DELETE FROM tbAtracao WHERE idAtracao = ?";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);
@@ -78,10 +77,9 @@ public class AtracaoDAO implements EventosDAO<Atracao>{
 		}
 	}
 
-	@Override
-	public Atracao pesquisarPorId(long id) throws DAOExcep {
+	public Atracao listarById(long id) throws DAOExcep {
 		Atracao a = new Atracao();
-		String sql = "SELECT * FROM tbAtracao WHERE id = ?";
+		String sql = "SELECT * FROM tbAtracao WHERE idAtracao = ?";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, id);

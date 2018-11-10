@@ -40,7 +40,7 @@ public class ControllerCadastroAtracao extends HttpServlet {
 				a.setNome(request.getParameter("txtNomeAtracao"));
 				a.setDescricao(request.getParameter("txtDescricaoAtracao"));
 				ad.adicionar(a);
-				msg = "Atração Adicionada!";
+				msg = "Atraï¿½ï¿½o Adicionada!";
 			}
 			else if ("limpar".equals(cmd)) {
 				request.getParameter("txtNomeAtracao");
@@ -48,7 +48,7 @@ public class ControllerCadastroAtracao extends HttpServlet {
 			
 		}catch(DAOExcep | NumberFormatException e) {
 			e.printStackTrace();
-			msg = "Erro ao acessar cadastro de atração";
+			msg = "Erro ao acessar cadastro de atraï¿½ï¿½o";
 			msg += "\n\n" + e.getMessage() + "\n";
 			for (StackTraceElement trace : e.getStackTrace()) {
 				msg += trace.toString();
@@ -56,6 +56,6 @@ public class ControllerCadastroAtracao extends HttpServlet {
 		}
 		
 		session.setAttribute("Mensagem", msg);
-		response.sendRedirect("./");
+		response.sendRedirect("./cadastro_concluido.jsp");
 	}
 }

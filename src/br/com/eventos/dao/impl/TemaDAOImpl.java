@@ -21,8 +21,11 @@ public class TemaDAOImpl implements TemaDAO {
 	
 	public TemaDAOImpl() throws GenericDAOException {
 		try {
+			//Class.forName("org.mariadb.jdbc.Driver");
+			//con = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
+			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
+			con = DriverManager.getConnection(urldb);
 		}catch(SQLException | ClassNotFoundException e) {
 			throw new GenericDAOException(e);
 		}
@@ -30,7 +33,7 @@ public class TemaDAOImpl implements TemaDAO {
 
 	@Override
 	public void adicionar(Tema t) throws GenericDAOException {	
-		String sql = "INSERT INTO tbtema (descricao) "+
+		String sql = "INSERT INTO tbTema (descricao) "+
 				"VALUES (?)";
 		try {
 		PreparedStatement pstmt = con.prepareStatement(sql);
@@ -49,7 +52,7 @@ public class TemaDAOImpl implements TemaDAO {
 	@Override
 	public List<Tema> pesquisarporTema(String tema) throws GenericDAOException {
 		List<Tema> lista = new ArrayList<>();
-		String sql = "SELECT * FROM tbtema WHERE descricao like ?";
+		String sql = "SELECT * FROM tbTema WHERE descricao like ?";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, "%" + tema + "%");

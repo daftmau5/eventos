@@ -19,8 +19,11 @@ public class LocalDAOImpl {
 	
 	public LocalDAOImpl() throws GenericDAOException {
 		try {
+			//Class.forName("org.mariadb.jdbc.Driver");
+			//con = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
 			Class.forName("org.mariadb.jdbc.Driver");
-			con = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
+			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
+			con = DriverManager.getConnection(urldb);
 		}catch(SQLException | ClassNotFoundException e) {
 			throw new GenericDAOException(e);
 		}
@@ -28,7 +31,7 @@ public class LocalDAOImpl {
 
 	
 	public void adicionar(Local l) throws GenericDAOException {	
-		String sql = "INSERT INTO tblocal (nome, telefone, capacidade, areaFumante, endereco, vip) "+
+		String sql = "INSERT INTO tbLocal (nome, telefone, capacidade, areaFumante, endereco, vip) "+
 				"VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 		PreparedStatement pstmt = con.prepareStatement(sql);

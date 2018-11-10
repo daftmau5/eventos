@@ -49,18 +49,21 @@ public class TemaController extends HttpServlet {
 
 				tDAO.adicionar(t);
 				msg = "Tema cadastrado com sucesso!!";
+				session.setAttribute("MENSAGEM", msg);
+				response.sendRedirect("./cadastro_concluido.jsp");
 
 			} else if ("pesquisar".equals(cmd)) {
 				List<Tema> lista = tDAO.pesquisarporTema(request.getParameter("txtdescricao"));
 				session.setAttribute("LISTA", lista);
 				msg = "Atualmente temos" + lista.size() + " temas cadastrados";
+				session.setAttribute("MENSAGEM", msg);
+				response.sendRedirect("./cadastro_tema.jsp");
 			}
 
 		} catch (GenericDAOException | NumberFormatException e) {
 			e.printStackTrace();
 			msg = "erro ao adicionar este tema";
 		}
-		session.setAttribute("MENSAGEM", msg);
-		response.sendRedirect("./cadastro_tema.jsp");
+		
 	}
 }

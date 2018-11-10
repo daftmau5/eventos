@@ -1,10 +1,6 @@
 package br.com.eventos.controller;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,17 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.eventos.dao.EventosDAO;
-import br.com.eventos.dao.impl.AtracaoDAO;
 import br.com.eventos.dao.impl.DAOExcep;
-import br.com.eventos.dao.impl.EventoDAO;
-import br.com.eventos.dao.impl.LocalDAO;
-import br.com.eventos.dao.impl.TemaDAO;
 import br.com.eventos.dao.impl.UsuarioDAO;
-import br.com.eventos.model.Atracao;
-import br.com.eventos.model.Evento;
-import br.com.eventos.model.Local;
-import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
 @WebServlet("/ControllerUsuario")

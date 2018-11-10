@@ -13,18 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.eventos.dao.EventosDAO;
 import br.com.eventos.dao.impl.AtracaoDAO;
 import br.com.eventos.dao.impl.DAOExcep;
-import br.com.eventos.dao.impl.EventoDAO;
-import br.com.eventos.dao.impl.LocalDAO;
-import br.com.eventos.dao.impl.TemaDAO;
+import br.com.eventos.dao.impl.DaoEvento;
+import br.com.eventos.dao.impl.DaoLocal;
+import br.com.eventos.dao.impl.DaoTema;
 import br.com.eventos.model.Atracao;
 import br.com.eventos.model.Evento;
 import br.com.eventos.model.Local;
 import br.com.eventos.model.Tema;
 
-@WebServlet("/Controller")
+@WebServlet("/ControllerCadastroEvento")
 public class ControllerCadastroEvento  extends HttpServlet {
 
 	/**
@@ -37,25 +36,32 @@ public class ControllerCadastroEvento  extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter()
-		.append("Para acessar utilize a pagina de <a href=\"./cadastro_evento.jsp\">evento</a>");
+
 		String msg = null;
 		
 		try {
 			HttpSession session = request.getSession();
-			EventosDAO<Tema> temaDao = new TemaDAO();
-			EventosDAO<Atracao> atracaoDao = new AtracaoDAO();
-			EventosDAO<Local> localDao = new LocalDAO();
+			DaoTema temaDao = new DaoTema();
+			AtracaoDAO atracaoDao = new AtracaoDAO();
+			DaoLocal localDao = new DaoLocal();
+			DaoEvento eventoDao = new DaoEvento();
+
+			List<Evento> listaEvento = eventoDao.listar();
+			session.setAttribute("LISTA-EVENTO", listaEvento);
 		
 			List<Tema> listaTema = temaDao.listar();
 			session.setAttribute("LISTA_TEMA", listaTema);
 			
+			
 			List<Atracao> listaAtracao = atracaoDao.listar();
-			session.setAttribute("LISTA_ATACAO", listaAtracao);
+			session.setAttribute("LISTA_ATRACAO", listaAtracao);
 			
 			List<Local> listaLocal = localDao.listar();
 			session.setAttribute("LISTA_LOCAL", listaLocal);
-		
+			
+			response.sendRedirect("./cadastro_evento.jsp");
+
+		 
 		}catch (DAOExcep  e) {
 			e.printStackTrace();
 			msg = "Erro ao acessar este evento";
@@ -65,39 +71,41 @@ public class ControllerCadastroEvento  extends HttpServlet {
 			}
 		}
 	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		String cmd = request.getParameter("cmd");
 		String msg = null;
 		HttpSession session = request.getSession();
 		
-		EventosDAO<Evento> eventoDao = new EventoDAO();
+		DaoEvento eventoDao = new DaoEvento();
 		
 		try {
 			
 			if("cadastrar".equals(cmd)) {
+				Tema tema = new Tema();
+				Atracao atracao = new Atracao();
 				Evento evento = new Evento();
 				evento.setNome(request.getParameter("txtNomeEvento"));
 				evento.setDescricao(request.getParameter("txtDescricaoEvento"));
 				evento.setPreco(request.getParameter("txtPrecoEvento"));
-				evento.setTema(new Tema(
-						Integer.parseInt(request.getParameter("idTema"))));
-				evento.setLocal(new Local(
-						Integer.parseInt(request.getParameter("idLocal"))));
+				//tema.setIdTema(Integer.parseInt(request.getParameter("idTema")));
+				evento.setTema(tema);
+			//	evento.setLocal(new Local(
+				//		Integer.parseInt(request.getParameter("idLocal"))));
 			    String dataEvento = request.getParameter("txtDataEvento");
 			   	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			   	Calendar cal = Calendar.getInstance();
-			   	cal.setTime(sdf.parse(dataEvento));
+			//   	cal.setTime(sdf.parse(dataEvento));
 			   	evento.setData(cal);
-				evento.setAtracao(new Atracao(
-						Integer.parseInt(request.getParameter("idAtracao"))));
-				eventoDao.adicionar(evento);
-				msg = "Sorvete foi adicionado com sucesso";
+				//evento.setAtracao(new Atracao(
+					//	Integer.parseInt(request.getParameter("idAtracao"))));
+				eventoDao.inserir(evento);
+				msg = "Evento foi adicionado com sucesso";
 			}
 			
-		}catch (DAOExcep | NumberFormatException | ParseException e) {
+		}catch (Exception/*DAOExcep | NumberFormatException | ParseException*/ e) {
 			e.printStackTrace();
-			msg = "Erro ao acessar este sorvete";
+			msg = "Erro no registro";
 			msg += "\n\n" + e.getMessage() + "\n";
 			for (StackTraceElement trace : e.getStackTrace()) { 
 				msg += trace.toString();
@@ -107,4 +115,5 @@ public class ControllerCadastroEvento  extends HttpServlet {
 		session.setAttribute("MENSAGEM", msg);
 		response.sendRedirect("./cadastro_evento.jsp");
 	}
+	
 }	
