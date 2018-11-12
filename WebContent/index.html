@@ -49,7 +49,7 @@
 			<h1 style="color:#6495ED;">E-vents</h1>
             <div class="container-fluid">
                   <div class="wrapper">
-					<form class="form-signin" id="formLogin" action="./ControllerUsuario" method="get">       
+					<form class="form-signin" id="formLogin" action="ControllerLogin" method="get">       
 					  <h2 class="form-signin-heading">Bem Vindo!</h2>
 					  <input type="text" class="form-control" name="login" id="login" placeholder="Email Address" required="" autofocus="" />
 					  <input type="password" class="form-control" name="senha" id="senha" placeholder="Password" required=""/> 
