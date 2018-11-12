@@ -14,6 +14,7 @@ import br.com.eventos.dao.GenericDAOException;
 import br.com.eventos.dao.TemaDAO;
 import br.com.eventos.dao.impl.TemaDAOImpl;
 import br.com.eventos.model.Tema;
+import br.com.eventos.model.Usuario;
 
 /**
  * Servlet implementation class TemaController
@@ -29,8 +30,15 @@ public class TemaController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		Usuario user = (Usuario)session.getAttribute("USUARIO_LOGADO");
+		if (!(user == null)) {
+			response.sendRedirect("./cadastro_tema.jsp");
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		}else {
+			response.getWriter().append("Vc não tá logado seu merdinha");
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
