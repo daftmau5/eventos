@@ -21,7 +21,7 @@ public class DaoTema {
 
 	public DaoTema() {
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
+			Class.forName("com.mysql.jdbc.Driver");
 			// Class.forName("org.mariadb.jdbc.Driver");
 			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
 			con = DriverManager.getConnection(urldb);
@@ -40,7 +40,7 @@ public class DaoTema {
 			stmt.setString(1, t.getDescricao());
 			stmt.executeUpdate();
 		} catch (SQLException e) {
-			throw new DAOExcep( e );
+			throw new DAOExcep(e);
 		}
 	}
 
@@ -56,7 +56,7 @@ public class DaoTema {
 			}
 			return array;
 		} catch (SQLException e) {
-			throw new DAOExcep( e );
+			throw new DAOExcep(e);
 		}
 	}
 
@@ -64,32 +64,34 @@ public class DaoTema {
 		Tema tema = new Tema();
 		try {
 
-			String sql = "select * from tbTema where id = ?;";
+			String sql = "select * from tbTema where idTema = ?;";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
-
-			tema.setIdTema(rs.getInt(1));
-			tema.setDescricao(rs.getString(2));
+			
+			while (rs.next()) {
+				tema.setIdTema(rs.getInt(1));
+				tema.setDescricao(rs.getString(2));
+			}
 
 			return tema;
 		} catch (SQLException e) {
-			throw new DAOExcep( e );
+			throw new DAOExcep(e);
 		}
 	}
 
 	public void excluir(int id) throws DAOExcep {
-		
+
 		try {
-			
+
 			String sql = "DELETE FROM tbTema WHERE id = ?";
 			PreparedStatement stmt;
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
 			stmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
-			throw new DAOExcep( e );
+			throw new DAOExcep(e);
 		}
 
 	}

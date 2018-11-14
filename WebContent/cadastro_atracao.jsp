@@ -41,8 +41,8 @@
 				<li>
 					<h4 style="color: white;">Evento</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="/ControllerCadastroEvento">Cadastrar</a>
+						<a href="./PesquisaEvento">Buscar</a>
+						<a href="./CadastroEvento">Cadastrar</a>
 						<a href="#">Reservas</a>
 					</ul>
 				</li>
@@ -50,21 +50,21 @@
 					<h4 style="color: white;">Local</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./cadastro_local.jsp">Cadastrar</a>
+						<a href="./LocalController">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Atração</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="./cadastro_atracao.jsp">Cadastrar</a>
+						<a href="./ControlerBuscaAtracao">Buscar</a>
+						<a href="./ControlerCadAtracao">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./cadastro_tema.jsp">Cadastrar</a>
+						<a href="./TemaController">Cadastrar</a>
 					</ul>
 				</li>
 			</ul>

@@ -14,15 +14,10 @@ import br.com.eventos.model.Tema;;
 
 public class TemaDAOImpl implements TemaDAO {
 
-	private static final String JDBC_URL = "jdbc:mariadb://localhost:3306/eventos";
-	private static final String JDBC_USER = "root";
-	private static final String JDBC_PASS = "testemaria1";
 	private Connection con;
 	
 	public TemaDAOImpl() throws GenericDAOException {
 		try {
-			//Class.forName("org.mariadb.jdbc.Driver");
-			//con = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
 			Class.forName("org.mariadb.jdbc.Driver");
 			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
 			con = DriverManager.getConnection(urldb);
@@ -68,6 +63,54 @@ public class TemaDAOImpl implements TemaDAO {
 		}
 		return lista;
 	}
+
+	@Override
+	public void remover(long id) throws GenericDAOException {
+		String sql = "DELETE FROM tbTema WHERE idTema = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			throw new GenericDAOException(e);
+		}
+	
+	}
+	
+	
+	@Override
+	public Tema pesquisarporId(long id) throws GenericDAOException {
+		Tema t = new Tema();
+		String sql = "SELECT * FROM tbTema WHERE idTema = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setLong(1, id);
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					t.setIdTema(rs.getInt("idTema"));
+					t.setDescricao(rs.getString("descricao"));
+				}
+		}catch(SQLException e) {
+			throw new GenericDAOException(e);	
+		}
+			
+		return t;
+		
+	}
+
+	
+	public void salvar(long id, Tema t) throws GenericDAOException {
+		String sql = "UPDATE tbTema set descricao = ? WHERE idTema = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, t.getDescricao());
+			pstmt.setLong(2, t.getIdTema());
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			throw new GenericDAOException(e);
+		}
+	}
+	
 	
 	
 	

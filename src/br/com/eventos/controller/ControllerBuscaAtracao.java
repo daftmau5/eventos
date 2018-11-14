@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 
 import br.com.eventos.dao.impl.AtracaoDAO;
 import br.com.eventos.dao.impl.DAOExcep;
 import br.com.eventos.model.Atracao;
+import br.com.eventos.model.Usuario;
 
 @WebServlet("/ControlerBuscaAtracao")
 public class ControllerBuscaAtracao extends HttpServlet {
@@ -33,17 +35,35 @@ public class ControllerBuscaAtracao extends HttpServlet {
 		String msg = null;
 		HttpSession session = request.getSession();
 		
-		try {
-
+		try {		
 			if("pesquisar".equals(cmd)) {
-				String id = request.getParameter("txtIDAtracao");
-				Long id2 = Long.parseLong(id);
-				List<Atracao> lista = (List<Atracao>) ad.listarById(id2);
+				List<Atracao> lista = ad.ProcurarNome(request.getParameter("txtNomeAtracao"));
 				session.setAttribute("LISTA", lista);
-				msg = "Foram encontrados " + lista.size() + " Atra��es";
+				msg = "Encontramos " + lista.size() + " Atra��o";
 			}
-			else if ("limpar".equals(cmd)) {
-				request.getParameter("txtNomeAtracao");
+			else if ("remover".equals(cmd)) {
+				String id = request.getParameter("txtId");
+				ad.excluir(Integer.parseInt(id));
+				msg = "Atracao " + id + " removido";
+				List<Atracao> lista = ad.ProcurarNome("");
+				session.setAttribute("LISTA", lista);
+			}
+			else if ("editar".equals(cmd)){
+				String id = request.getParameter("txtId");
+				Atracao a = ad.listarById(Long.parseLong(id));
+				session.setAttribute("ATRACAO_EDITAR", a);
+				msg = "Ser� editado: " + a;
+			}
+			else if ("atualizar".equals(cmd)) {
+				Atracao a = new Atracao();
+				String id = request.getParameter("txtId");
+				System.out.println(id);
+				a.setNome(request.getParameter("txtNomeAtracao"));
+				a.setDescricao(request.getParameter("txtDescricaoAtracao"));
+				ad.atualizar(Long.parseLong(id), a );
+				List<Atracao> lista = ad.ProcurarNome("");
+				session.setAttribute("LISTA", lista);				
+				msg = "Atracao atualizado!";
 			}
 			
 		}catch(DAOExcep | NumberFormatException e) {
@@ -55,7 +75,21 @@ public class ControllerBuscaAtracao extends HttpServlet {
 			}
 		}
 		
-		session.setAttribute("Mensagem", msg);
-		response.sendRedirect("./");
+		session.setAttribute("MENSAGEM", msg);
+		response.sendRedirect("./buscar_atracao.jsp");
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Usuario user = (Usuario)session.getAttribute("USUARIO_LOGADO");
+		if(!(user==null)) {
+			response.sendRedirect("./buscar_atracao.jsp");
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		}else {
+			System.out.println("precisa logar");
+			response.sendRedirect("./");
+		}
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 }

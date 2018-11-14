@@ -65,7 +65,7 @@ $("#txtCPF").keydown(function(){
 				</li>
 				<li>
 					<ul>
-						<a href="#">Log-In</a>
+						<a href="/">Log-In</a>
 					</ul>
 				</li>
 			</ul>

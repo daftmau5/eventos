@@ -35,7 +35,7 @@
                 </li>
                 <li>
 					<ul>
-						<a href="./cadastro_usuario.jsp">Cadastro</a>
+						<a href="./ControllerUsuario">Cadastro</a>
 					</ul>
                 </li>
             </ul>

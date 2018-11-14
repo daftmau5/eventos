@@ -1,41 +1,31 @@
 package br.com.eventos.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import java.util.GregorianCalendar;
 
 import br.com.eventos.model.Local;
 
-@Entity
 public class Evento {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idEvento;
-	@ManyToMany(fetch=FetchType.EAGER)
+
 	private ArrayList<Usuario> usuariosConfirmados;
-	@ManyToOne
+	
 	private Tema tema;
-	@Column
+	
 	private String descricao;
-	@Column
+	
 	private String nome;
-	@ManyToOne
+
 	private Atracao atracao;
-	@Column
+	
 	private Calendar data;
-	@ManyToOne
+	
 	private Local local;
-	@Column
-	private String preco;
+
+	private Double preco;
 
 	public int getIdEvento() {
 		return idEvento;
@@ -44,6 +34,7 @@ public class Evento {
 	public void setIdEvento(int idEvento) {
 		this.idEvento = idEvento;
 	}
+	
 
 	public ArrayList<Usuario> getUsuariosConfirmados() {
 		return usuariosConfirmados;
@@ -52,7 +43,7 @@ public class Evento {
 	public void setUsuariosConfirmados(ArrayList<Usuario> usuariosConfirmados) {
 		this.usuariosConfirmados = usuariosConfirmados;
 	}
-
+	
 	public Tema getTema() {
 		return tema;
 	}
@@ -85,11 +76,11 @@ public class Evento {
 		this.local = local;
 	}
 
-	public String getPreco() {
+	public Double getPreco() {
 		return preco;
 	}
 
-	public void setPreco(String preco) {
+	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 
@@ -108,6 +99,11 @@ public class Evento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
+	
+	public String calendarToString(Calendar date){
+		SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy");
+		String a = s.format(date.getTime());
+	return a;
+	}
 
 }

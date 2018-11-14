@@ -23,36 +23,30 @@ import br.com.eventos.model.Local;
 import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
-public class ControllerCadastroEvento extends HttpServlet {
+public class ControllerPesquisaEvento extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-
-	public ControllerCadastroEvento() {
-	}
+	private static final long serialVersionUID = 5285834682359746610L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String msg = null;
-
 		HttpSession session = request.getSession();
+
+
 		Usuario user = (Usuario)session.getAttribute("USUARIO_LOGADO");
-		if(!(user==null)) {
+		if(!(user.getEmail()==null)) {
 
 			try {
-				DaoTema temaDao = new DaoTema();
-				AtracaoDAO atracaoDao = new AtracaoDAO();
 				DaoLocal localDao = new DaoLocal();
+				DaoEvento eventoDao = new DaoEvento();
 
-				List<Tema> listaTema = temaDao.listar();
-				session.setAttribute("LISTA_TEMA", listaTema);
-
-				List<Atracao> listaAtracao = atracaoDao.listar();
-				session.setAttribute("LISTA_ATRACAO", listaAtracao);
+				List<Evento> listaEvento = eventoDao.listar();
+				session.setAttribute("LISTA_EVENTO", listaEvento);
 
 				List<Local> listaLocal = localDao.listar();
 				session.setAttribute("LISTA_LOCAL", listaLocal);
 
-				response.sendRedirect("./cadastro_evento.jsp");
+				response.sendRedirect("./pesquisa_evento.jsp");
 
 			} catch (DAOExcep e) {
 				e.printStackTrace();
@@ -64,14 +58,15 @@ public class ControllerCadastroEvento extends HttpServlet {
 			}
 		} else {
 
-			msg = "Você não ta logado";
+			msg = "Você não ta logado seu merdinha";
 			session.setAttribute("MENSAGEM", msg);
-			response.sendRedirect("./");
+			// response.sendRedirect("./pesquisa_evento.jsp");
 
 		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		String cmd = request.getParameter("cmd");
 		String msg = null;
 		HttpSession session = request.getSession();
@@ -80,6 +75,7 @@ public class ControllerCadastroEvento extends HttpServlet {
 		if (!(user == null)) {
 
 			DaoEvento eventoDao = new DaoEvento();
+			DaoLocal localDao = new DaoLocal();
 
 			Tema tema = new Tema();
 			Atracao atracao = new Atracao();
@@ -88,28 +84,36 @@ public class ControllerCadastroEvento extends HttpServlet {
 
 			try {
 
-				if ("cadastrar".equals(cmd)) {
-					evento.setDescricao(request.getParameter("txtDescricaoEvento"));
-					evento.setPreco(Double.parseDouble(request.getParameter("txtPrecoEvento").replaceAll(",", ".")));
-					tema.setIdTema(Integer.parseInt(request.getParameter("idTema")));
-					atracao.setIdAtracao(Integer.parseInt(request.getParameter("idAtracao")));
+				List<Local> listaLocal = localDao.listar();
+				session.setAttribute("LISTA_LOCAL", listaLocal);
+
+				if ("remover".equals(cmd)) {
+					String id = request.getParameter("txtId");
+					eventoDao.excluir(Integer.parseInt(id));
+					msg = "Evento com o Id " + id + " foi removido";
+					List<Evento> listaEvento = eventoDao.listar();
+					session.setAttribute("LISTA_EVENTO", listaEvento);
+				} else if ("pesquisar".equals(cmd)) {
+					Evento e = new Evento();
+					e.setDescricao(request.getParameter("txtDescricaoEvento"));
+
 					local.setIdLocal(Integer.parseInt(request.getParameter("idLocal")));
+					e.setLocal(local);
 
-					String dataEvento = request.getParameter("txtDataEvento");
-					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(sdf.parse(dataEvento));
-					evento.setData(cal);
+					/*
+					 * String dataEvento = request.getParameter("txtDataEvento"); SimpleDateFormat
+					 * sdf = new SimpleDateFormat("dd.MM.yyyy"); Calendar cal =
+					 * Calendar.getInstance(); cal.setTime(sdf.parse(dataEvento)); e.setData(cal);
+					 */
 
-					evento.setTema(tema);
-					evento.setAtracao(atracao);
-					evento.setLocal(local);
+					List<Evento> listaEventos = eventoDao.listarPorFiltro(e);
 
-					eventoDao.inserir(evento);
-					msg = "Evento foi adicionado com sucesso";
+					session.setAttribute("LISTA_EVENTO", listaEventos);
+					msg = "Foram encontrados " + listaEventos.size() + " eventos";
+
 				}
 
-			} catch (ParseException e) {
+			} catch (DAOExcep /* | ParseException */ e) {
 				e.printStackTrace();
 				msg = "Erro no registro";
 				msg += "\n\n" + e.getMessage() + "\n";
@@ -119,12 +123,12 @@ public class ControllerCadastroEvento extends HttpServlet {
 			}
 
 			session.setAttribute("MENSAGEM", msg);
-			response.sendRedirect("./ControllerCadastroEvento");
+			response.sendRedirect("./pesquisa_evento.jsp");
 		} else {
-
 			msg = "Você não ta logado seu merdinha";
 			session.setAttribute("MENSAGEM", msg);
 			// response.sendRedirect("./pesquisa_evento.jsp");
+
 		}
 	}
 

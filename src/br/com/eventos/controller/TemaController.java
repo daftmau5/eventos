@@ -32,13 +32,17 @@ public class TemaController extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Usuario user = (Usuario)session.getAttribute("USUARIO_LOGADO");
-		if (!(user == null)) {
+		if(!(user==null)) {
 			response.sendRedirect("./cadastro_tema.jsp");
 			response.getWriter().append("Served at: ").append(request.getContextPath());
 		}else {
-			response.getWriter().append("Vc não tá logado seu merdinha");
+			System.out.println("precisa logar");
+			response.sendRedirect("./");
 		}
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -66,12 +70,36 @@ public class TemaController extends HttpServlet {
 				msg = "Atualmente temos" + lista.size() + " temas cadastrados";
 				session.setAttribute("MENSAGEM", msg);
 				response.sendRedirect("./cadastro_tema.jsp");
+			} else if ("remover".equals(cmd)) {
+				String id = request.getParameter("txtId");
+				tDAO.remover(Long.parseLong(id));
+				msg = "Tema com id" + id + " removido";
+				List<Tema> lista = tDAO.pesquisarporTema("");
+				session.setAttribute("LISTA", lista);
+				response.sendRedirect("./cadastro_tema.jsp");
+			} else if ("editar".equals(cmd)) {
+				String id = request.getParameter("txtId");
+				Tema t = tDAO.pesquisarporId(Long.parseLong(id));
+				session.setAttribute("TEMA_ATUAL", t);
+				msg = "Detalhes do TEMA com o Id " + id;
+				response.sendRedirect("./cadastro_tema.jsp");
+			} else if ("salvar".equals(cmd)) {
+				Tema t = new Tema();
+				String id = request.getParameter("txtId");
+				t.setDescricao(request.getParameter("txtdescricao"));
+				tDAO.salvar(Long.parseLong(id), t);
+				List<Tema> lista = tDAO.pesquisarporTema("");
+				session.setAttribute("LISTA", lista);
+				msg = "Tema salvo com sucesso";
+				response.sendRedirect("./cadastro_tema.jsp");
+
 			}
 
 		} catch (GenericDAOException | NumberFormatException e) {
 			e.printStackTrace();
 			msg = "erro ao adicionar este tema";
 		}
-		
+
 	}
+	
 }

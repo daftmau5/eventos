@@ -27,19 +27,50 @@
 <!-- Custom styles for this template -->
 <link href="front/css/simple-sidebar.css" rel="stylesheet">
 
+	<script>
+		function remover( id ) {
+			if (confirm("Remove atracao com id " + id)) {
+				$('#formBuscaAtracao').empty();
+				$('#formBuscaAtracao').append('<input type="hidden" name="txtId" value="' + id + '"/>');
+				$('#formBuscaAtracao').append('<input type="hidden" name="cmd" value="remover"/>');
+				$('#formBuscaAtracao').submit();
+			}
+		}
+		function editar( id ) {
+			$('#formBuscaAtracao').empty();
+			$('#formBuscaAtracao').append('<input type="hidden" name="txtId" value="' + id + '"/>');
+			$('#formBuscaAtracao').append('<input type="hidden" name="cmd" value="editar"/>');
+			$('#formBuscaAtracao').submit();
+		}		
+	</script>
+
 </head>
 
 <body>
 
 	<% 
 		AtracaoDAO ad = new AtracaoDAO();
-		List<Atracao> lista = ad.listar();
+		String msg = (String)session.getAttribute("MENSAGEM");
+		List<Atracao> lista = ad.listar(); /*Alterar para o pesquisar funcionar*/
+		
 		if (lista == null) {
 			lista = new ArrayList<Atracao>();
 		}else{
 			session.setAttribute("LISTA", null);
 		}
-	%>
+		
+		Atracao atracaoEdit = (Atracao)session.getAttribute("ATRACAO_EDITAR");
+		   if (atracaoEdit == null) { 
+			   atracaoEdit = new Atracao();
+		   } else { 
+			   session.setAttribute("ATRACAO_EDITAR", null);
+		   }
+		
+		if (msg != null) {
+		   session.setAttribute("MENSAGEM", null);
+		%>
+			<h3 class="alert alert-danger"><%=msg%></h3>
+	<% } %>
 	
 	<div id="wrapper">
 
@@ -52,8 +83,8 @@
 				<li>
 					<h4 style="color: white;">Evento</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="/ControllerCadastroEvento">Cadastrar</a>
+						<a href="./PesquisaEvento">Buscar</a>
+						<a href="./CadastroEvento">Cadastrar</a>
 						<a href="#">Reservas</a>
 					</ul>
 				</li>
@@ -61,21 +92,21 @@
 					<h4 style="color: white;">Local</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./cadastro_local.jsp">Cadastrar</a>
+						<a href="./LocalController">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Atração</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="./cadastro_atracao.jsp">Cadastrar</a>
+						<a href="./ControlerBuscaAtracao">Buscar</a>
+						<a href="./ControlerCadAtracao">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./cadastro_tema.jsp">Cadastrar</a>
+						<a href="./TemaController">Cadastrar</a>
 					</ul>
 				</li>
 			</ul>
@@ -92,25 +123,26 @@
 				
 				<div class="form-group">
 					<label for="nome">ID:</label> 
-					<input type="text" class="form-control" name="txtIDAtracao" placeholder="Digite o ID">
+					<input type="text" class="form-control" name="txtId" value="<%=atracaoEdit.getIdAtracao()%>" readonly/>
 				</div>
 				
 				<div class="form-group">
 					<label for="nome">Nome:</label> 
-					<input type="text" disabled="" class="form-control" name="txtNomeAtracao" placeholder="Digite o Nome">
+					<input type="text" class="form-control" name="txtNomeAtracao" placeholder="Digite o Nome" value="<%=atracaoEdit.getNome()%>"/>
 				</div>
 				
 				<div class="form-group">
 					<label for="nome">Descrição:</label> 
-					<input type="text" disabled="" class="form-control" name="txtDescricaoAtracao" placeholder="Digite a Descrição">
+					<input type="text" class="form-control" name="txtDescricaoAtracao" placeholder="Digite a Descrição" value="<%=atracaoEdit.getDescricao()%>" />
 				</div>
 				
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="cmd" value="pesquisar">Pesquisar</button>
-					<button type="submit" disabled="" class="btn btn-primary" name="cmd" value="pesquisar">Atualizar</button>
-				</div>	
+					<button type="submit" class="btn btn-primary" name="cmd" value="atualizar">Atualizar</button>
+				</div>
+			</div>
 				
-				<%if (lista.size() > 0) {%>
+			<%if (lista.size() > 0) {%>
 				<div class="container">
 					<table class="table table-striped">
 						<thead>
@@ -136,9 +168,8 @@
 							</tr>
 						<% } %>
 					</tbody>
-					</table>
+				</table>
 				</div>			
-		      </div>	
 			  <%} %>
  			</form>
 						

@@ -22,10 +22,8 @@ public class AtracaoDAO {
 	
 	public AtracaoDAO() {
         try {
-            //Class.forName("org.mariadb.jdbc.Driver");
-            //con = DriverManager.getConnection("jdbc:mariadb://localhost:3306/eventos?user=root&password=123456");
-        	Class.forName("org.mariadb.jdbc.Driver");
-			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
+            Class.forName("org.mariadb.jdbc.Driver");
+            String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
 			con = DriverManager.getConnection(urldb);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -59,11 +57,10 @@ public class AtracaoDAO {
 				a.setDescricao(rs.getString("descricao"));
 				array.add(a);
 			}
-			return array;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			return array;
+			e.printStackTrace();	
 		}	
+		return array;
 	}
 
 	public void excluir(int id) throws DAOExcep {
@@ -93,6 +90,40 @@ public class AtracaoDAO {
 			throw new DAOExcep( e );
 		}
 		return a;
+	}
+	
+	public List<Atracao> ProcurarNome(String nomeAtracao) throws DAOExcep {
+		List<Atracao> lista = new ArrayList<>();
+		Atracao a = new Atracao();
+		String sql = "SELECT * FROM tbAtracao WHERE nome = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, nomeAtracao);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) { 
+				a.setIdAtracao(rs.getInt("idAtracao"));
+				a.setNome(rs.getString("nome"));
+				a.setDescricao(rs.getString("descricao"));
+				lista.add(a);
+			}
+		} catch (SQLException e) {
+			throw new DAOExcep( e );
+		}
+		return lista;
+	}
+	
+	public void atualizar(long id, Atracao a) throws DAOExcep {
+		String sql = "UPDATE tbAtracao SET nome = ?, descricao = ?"
+				+ "WHERE idAtracao = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, a.getNome());
+			pstmt.setString(2, a.getDescricao());
+			pstmt.setLong(3, id);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOExcep( e );
+		}
 	}
 	
 	

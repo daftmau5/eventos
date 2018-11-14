@@ -34,8 +34,8 @@ public class DaoEvento {
 
 	public DaoEvento() {
 		try {
+			Class.forName("com.mysql.jdbc.Driver");
 			// Class.forName("org.mariadb.jdbc.Driver");
-        	Class.forName("org.mariadb.jdbc.Driver");
 			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
 			con = DriverManager.getConnection(urldb);
 		} catch (ClassNotFoundException e) {
@@ -48,19 +48,21 @@ public class DaoEvento {
 
 	public void inserir(Evento e) {
 		try {
-			String sql = "INSERT INTO tbEvento (descricao, data, tema_id, atracao_id, local_id, preco) VALUES (?, ?, ?, ?, ?, ?)";
+			String sql = "INSERT INTO tbEvento (descricao, dataEvento, idTema, idAtracao, idLocal, preco) VALUES (?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setString(1, e.getDescricao());
 			stmt.setDate(2, new java.sql.Date(e.getData().getTimeInMillis()));
 			stmt.setInt(3, e.getTema().getIdTema());
 			stmt.setInt(4, e.getAtracao().getIdAtracao());
 			stmt.setInt(5, e.getLocal().getIdLocal());
-			stmt.setString(6, e.getPreco());
+			stmt.setDouble(6, e.getPreco());
 			stmt.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
+	
+	/*
 
 	public void adicionaUsuario(Evento e, Usuario u) {
 		try {
@@ -73,6 +75,7 @@ public class DaoEvento {
 			ex.printStackTrace();
 		}
 	}
+	*/
 
 	public ArrayList<Evento> listar() throws DAOExcep {
 		ArrayList<Evento> array = new ArrayList<>();
@@ -80,32 +83,41 @@ public class DaoEvento {
 			ResultSet rs = executeQuery("select * from tbEvento;", con.createStatement());
 			while (rs.next()) {
 				Evento e = new Evento();
+				daoTema = new DaoTema();
+				daoAtracao = new AtracaoDAO();
+				daoLocal = new DaoLocal();
+				
 				e.setIdEvento(rs.getInt(1));
+				
+				Usuario usuario = new Usuario();
+				usuario.setIdUsuario(rs.getInt(2));
 
-				Tema tema = daoTema.listarById(rs.getInt(2));
+				Tema tema = new Tema();
+				
+				tema = daoTema.listarById(rs.getInt(3));
 				e.setTema(tema);
-
-				e.setDescricao(rs.getString(3));
-
+				
 				Atracao atracao = daoAtracao.listarById(rs.getInt(4));
 				e.setAtracao(atracao);
-
+				
+				Date dateEvento  = new Date();
 				Calendar calendar = Calendar.getInstance();
-				SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+				SimpleDateFormat formatador = new SimpleDateFormat("dd.MM.yyyy");
 				try {
-					Date dateNasc = formatador.parse(rs.getTimestamp(5).toString());
-					calendar.setTime(dateNasc);
+					dateEvento = formatador.parse(rs.getTimestamp(5).toString());
+					calendar.setTime(dateEvento);
+					e.setData(calendar);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
+				
+				e.setDescricao(rs.getString(6));
 
-				e.setData(calendar);
+				e.setPreco(rs.getDouble(7));
 
-				Local local = daoLocal.listarById(rs.getInt(6));
+				Local local = daoLocal.listarById(rs.getInt(8));
 				e.setLocal(local);
-
-				e.setPreco(rs.getString(7));
-
+				
 				array.add(e);
 			}
 			return array;
@@ -119,7 +131,7 @@ public class DaoEvento {
 
 		try {
 
-			String sql = "DELETE FROM tbEvento WHERE id = ?";
+			String sql = "DELETE FROM tbEvento WHERE idEvento = ?";
 			PreparedStatement stmt;
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
@@ -128,6 +140,63 @@ public class DaoEvento {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Evento> listarPorFiltro(Evento evento) throws DAOExcep {
+		ArrayList<Evento> array = new ArrayList<>();
+		try {
+			//String sql = "select * from tbEvento where dataEvento = ? descricao like ? and idLocal = ?";
+			String sql = "select * from tbEvento where descricao like ? and idLocal = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+		//	pstmt.setDate(1, new java.sql.Date(evento.getData().getTimeInMillis()));
+			pstmt.setString(1, "%" + evento.getDescricao() + "%");
+			pstmt.setInt(2, evento.getLocal().getIdLocal());
 
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Evento e = new Evento();
+				daoTema = new DaoTema();
+				daoAtracao = new AtracaoDAO();
+				daoLocal = new DaoLocal();
+				
+				e.setIdEvento(rs.getInt(1));
+				
+				Usuario usuario = new Usuario();
+				usuario.setIdUsuario(rs.getInt(2));
+
+				Tema tema = new Tema();
+				
+				tema = daoTema.listarById(rs.getInt(3));
+				e.setTema(tema);
+				
+				Atracao atracao = daoAtracao.listarById(rs.getInt(4));
+				e.setAtracao(atracao);
+				
+				Date dateEvento  = new Date();
+				Calendar calendar = Calendar.getInstance();
+				SimpleDateFormat formatador = new SimpleDateFormat("dd.MM.yyyy");
+				try {
+					dateEvento = formatador.parse(rs.getTimestamp(5).toString());
+					calendar.setTime(dateEvento);
+					e.setData(calendar);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+
+				e.setDescricao(rs.getString(6));
+
+				e.setPreco(rs.getDouble(7));
+
+				Local local = daoLocal.listarById(rs.getInt(8));
+				e.setLocal(local);
+				
+				array.add(e);
+			}
+			return array;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return array;
+		}
 	}
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="br.com.eventos.model.Local, java.util.List, java.util.ArrayList"%>   
+<%@ page import="br.com.eventos.model.Local, java.util.*"%>   
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -25,7 +25,23 @@
 
 <!-- Custom styles for this template -->
 <link href="front/css/simple-sidebar.css" rel="stylesheet">
+<script>
+		function remover( id ) {
+			if (confirm("Remove o tema com id " + id)) {
+				$('#formLocal').empty();
+				$('#formLocal').append('<input type="hidden" name="txtId" value="' + id + '"/>');
+				$('#formLocal').append('<input type="hidden" name="cmd" value="remover"/>');
+				$('#formLocal').submit();
+			}
+		}
 
+		function editar( id ) {
+			$('#formLocal').empty();
+			$('#formLocal').append('<input type="hidden" name="txtId" value="' + id + '"/>');
+			$('#formLocal').append('<input type="hidden" name="cmd" value="editar"/>');
+			$('#formLocal').submit();
+		}		
+	</script>
 </head>
 
 <body>
@@ -54,8 +70,8 @@
 				<li>
 					<h4 style="color: white;">Evento</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="/ControllerCadastroEvento">Cadastrar</a>
+						<a href="./PesquisaEvento">Buscar</a>
+						<a href="./CadastroEvento">Cadastrar</a>
 						<a href="#">Reservas</a>
 					</ul>
 				</li>
@@ -63,21 +79,21 @@
 					<h4 style="color: white;">Local</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./cadastro_local.jsp">Cadastrar</a>
+						<a href="./LocalController">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Atração</h4>
 					<ul>
-						<a href="#">Buscar</a>
-						<a href="./cadastro_atracao.jsp">Cadastrar</a>
+						<a href="./ControlerBuscaAtracao">Buscar</a>
+						<a href="./ControlerCadAtracao">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./cadastro_tema.jsp">Cadastrar</a>
+						<a href="./TemaController">Cadastrar</a>
 					</ul>
 				</li>
 			</ul>
@@ -87,7 +103,7 @@
 		<!-- Page Content -->
 		<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
 		<div id="page-content-wrapper">
-		<form id="formEvento" action="./LocalController" method="post">
+		<form id="formLocal" action="./LocalController" method="post">
 			<div class="container-fluid">
 				<h1>Cadastro de Locais</h1>
 				<div class="form-group">
@@ -131,7 +147,7 @@
 				  	<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="cmd" value="cadastrar">Cadastrar</button>
 					<button type="submit" class="btn btn-primary" name="cmd" value="pesquisar">Pesquisar</button>
-					<button type="submit" class="btn btn-primary" name="cmd" value="limpar">Limpar</button>
+					<!-- button type="submit" class="btn btn-primary" name="cmd" value="limpar">Limpar</button>-->
 				</div>	
 				
 					
@@ -141,6 +157,18 @@
 			
 			<div class="container">
 				<table class="table table-stripped">
+					<thead>
+					<tr>
+						<th>Id</th>
+						<th>Nome</th>
+						<th>Telefone</th>
+						<th>Capacidade</th>
+						<th>Area para fumantes</th>
+						<th>Endereco</th>						
+						<th>Area Vip</th>
+					</tr>
+				</thead>
+					
 					<tbody>
 						<%for(Local l : lista){ %>
 						<tr>
@@ -151,7 +179,13 @@
 							<td><%=l.isAreaFumante() %></td>
 							<td><%=l.getEndereco() %></td>
 							<td><%=l.isVip()%></td>
-														
+							<td>
+								<div class="form-group">
+									<button type="button" class="btn btn-primary" onclick="remover(<%=l.getIdLocal()%>);">Remover</button>
+									<button type="button" class="btn btn-primary" onclick="editar(<%=l.getIdLocal()%>);">Editar</button>
+								</div>	
+							</td>
+												
 						</tr>
 						<%} %>
 					</tbody>

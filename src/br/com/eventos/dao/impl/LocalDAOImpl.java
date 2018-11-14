@@ -12,15 +12,10 @@ import br.com.eventos.dao.GenericDAOException;
 import br.com.eventos.model.Local;
 
 public class LocalDAOImpl {
-	private static final String JDBC_URL = "jdbc:mariadb://localhost:3306/eventos";
-	private static final String JDBC_USER = "root";
-	private static final String JDBC_PASS = "testemaria1";
 	private Connection con;
 	
 	public LocalDAOImpl() throws GenericDAOException {
 		try {
-			//Class.forName("org.mariadb.jdbc.Driver");
-			//con = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
 			Class.forName("org.mariadb.jdbc.Driver");
 			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
 			con = DriverManager.getConnection(urldb);
@@ -74,6 +69,18 @@ public class LocalDAOImpl {
 		return lista;
 	}
 	
+	
+	public void remover(long id) throws GenericDAOException{
+		String sql = "DELETE FROM tblocal WHERE idlocal = ?";
+		
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+		}catch(SQLException e){
+			throw new GenericDAOException(e);
+		}
+	}
 	
 	
 }
