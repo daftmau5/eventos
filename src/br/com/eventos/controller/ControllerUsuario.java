@@ -14,31 +14,36 @@ import br.com.eventos.dao.impl.UsuarioDAO;
 import br.com.eventos.model.Usuario;
 
 @WebServlet("/ControllerUsuario")
-public class ControllerUsuario  extends HttpServlet {
+public class ControllerUsuario extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	UsuarioDAO usuarioDao = new UsuarioDAO();
 
 	public ControllerUsuario() {
 		super();
 	}
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		response.sendRedirect("./cadastro_usuario.jsp");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String cmd = request.getParameter("cmd");
 		String msg = null;
 		HttpSession session = request.getSession();
-		
+
 		try {
-			
-			if("cadastrar".equals(cmd)) {
+
+			if ("cadastrar".equals(cmd)) {
 				Usuario usuario = new Usuario();
 				usuario.setLogin(request.getParameter("txtLogin"));
 				usuario.setSenha(request.getParameter("txtSenha"));
@@ -49,20 +54,20 @@ public class ControllerUsuario  extends HttpServlet {
 				System.out.println(usuario.getLogin());
 				usuarioDao.adicionar(usuario);
 				msg = "Usuario foi adicionado com sucesso";
-			}else if("cancelar".equals(cmd)) {
+			} else if ("cancelar".equals(cmd)) {
 				msg = "Cancelado";
 			}
-			
-		}catch (DAOExcep | NumberFormatException e) {
+
+		} catch (DAOExcep | NumberFormatException e) {
 			e.printStackTrace();
 			msg = "Erro ao acessar este usuário";
 			msg += "\n\n" + e.getMessage() + "\n";
-			for (StackTraceElement trace : e.getStackTrace()) { 
+			for (StackTraceElement trace : e.getStackTrace()) {
 				msg += trace.toString();
 			}
 		}
-		
+
 		session.setAttribute("MENSAGEM", msg);
 		response.sendRedirect("./");
 	}
-}	
+}
