@@ -1,12 +1,14 @@
 package br.com.eventos.controller;
 
 import java.io.IOException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +25,7 @@ import br.com.eventos.model.Local;
 import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
+@WebServlet("/ControllerPesquisaEvento")
 public class ControllerPesquisaEvento extends HttpServlet {
 
 	private static final long serialVersionUID = 5285834682359746610L;
@@ -58,7 +61,7 @@ public class ControllerPesquisaEvento extends HttpServlet {
 			}
 		} else {
 
-			msg = "Você não ta logado seu merdinha";
+			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg);
 			// response.sendRedirect("./pesquisa_evento.jsp");
 
@@ -125,7 +128,7 @@ public class ControllerPesquisaEvento extends HttpServlet {
 			session.setAttribute("MENSAGEM", msg);
 			response.sendRedirect("./pesquisa_evento.jsp");
 		} else {
-			msg = "Você não ta logado seu merdinha";
+			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg);
 			// response.sendRedirect("./pesquisa_evento.jsp");
 

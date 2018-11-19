@@ -1,18 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ page
 	import="br.com.eventos.model.Evento, br.com.eventos.model.Atracao, br.com.eventos.model.Tema, br.com.eventos.model.Local, java.util.List, java.util.ArrayList"%>
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-
 <title>E-Vents</title>
-
 <!-- Bootstrap core CSS -->
 <link href="front/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -27,8 +25,8 @@
 <!-- Custom styles for this template -->
 <link href="front/css/simple-sidebar.css" rel="stylesheet">
 
-</head>
 
+</head>
 <body>
 
 	<form action="./ControllerCadastroEvento" method="get">
@@ -37,13 +35,6 @@
 			List<Tema> listaTema = (List<Tema>) session.getAttribute("LISTA_TEMA");
 			List<Atracao> listaAtracao = (List<Atracao>) session.getAttribute("LISTA_ATRACAO");
 			List<Local> listaLocal = (List<Local>) session.getAttribute("LISTA_LOCAL");
-			List<Evento> listaEvento = (List<Evento>) session.getAttribute("LISTA_EVENTO");
-
-			if (listaEvento == null) {
-				listaEvento = new ArrayList<Evento>();
-			} else {
-				session.setAttribute("LISTA", null);
-			}
 
 			if (listaTema == null) {
 				listaTema = new ArrayList<Tema>();
@@ -86,8 +77,8 @@
 				<li>
 					<h4 style="color: white;">Evento</h4>
 					<ul>
-						<a href="./PesquisaEvento">Buscar</a>
-						<a href="./CadastroEvento">Cadastrar</a>
+						<a href="./ControllerPesquisaEvento">Buscar</a>
+						<a href="./ControllerCadastroEvento">Cadastrar</a>
 						<a href="#">Reservas</a>
 					</ul>
 				</li>
@@ -95,26 +86,25 @@
 					<h4 style="color: white;">Local</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./LocalController">Cadastrar</a>
+						<a href="./cadastro_local.jsp">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
-					<h4 style="color: white;">Atração</h4>
+					<h4 style="color: white;">AtraÃ§Ã£o</h4>
 					<ul>
-						<a href="./ControlerBuscaAtracao">Buscar</a>
-						<a href="./ControlerCadAtracao">Cadastrar</a>
+						<a href="#">Buscar</a>
+						<a href="./cadastro_atracao.jsp">Cadastrar</a>
 					</ul>
 				</li>
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
 						<a href="#">Buscar</a>
-						<a href="./TemaController">Cadastrar</a>
+						<a href="./cadastro_tema.jsp">Cadastrar</a>
 					</ul>
 				</li>
 			</ul>
 		</div>
-		<!-- /#sidebar-wrapper -->
 
 		<!-- Page Content -->
 		<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
@@ -124,31 +114,23 @@
 				<div class="container-fluid">
 					<h1>Cadastro de Eventos</h1>
 					<div class="form-group">
-						<label for="nome">Nome:</label> <input type="text"
-							class="form-control" name="txtNomeEvento"
-							placeholder="Digite o Nome do Evento">
-					</div>
-					<div class="form-group">
-						<label for="nome">Descrição:</label> <input type="text"
+						<label for="nome">DescriÃ§Ã£o:</label> <input type="text"
 							class="form-control" name="txtDescricaoEvento"
-							placeholder="Digite a Descrição do Evento">
+							placeholder="Digite a DescriÃ§Ã£o do Evento">
 					</div>
 
 					<div class="form-group">
-						<button class="btn btn-secondary dropdown-toggle" type="button"
-							id="dropdownMenuButton" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">Escolha um
-							Tema</button>
-						<div class="dropdown-menu" name="idTema"
-							aria-labelledby="dropdownMenuButton">
+						<label for="sel1">Escolha um Tema:</label> <select
+							class="form-control form-control-lg" name="idTema">
 							<%
 								for (Tema t : listaTema) {
 							%>
-							<a class="dropdown-item" value="<%=t.getIdTema()%>"><%=t.getDescricao()%></a>
+							<option value="<%=t.getIdTema()%>"><%=t.getDescricao()%></option>
+
 							<%
 								}
 							%>
-						</div>
+						</select>
 					</div>
 
 					<div class="form-group">
@@ -168,98 +150,45 @@
     			</script>
 
 					<div class="form-group">
-						<button class="btn btn-secondary dropdown-toggle" type="button"
-							id="dropdownMenuButton" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">Escolha uma
-							Atração</button>
-						<div class="dropdown-menu" name="idAtracao"
-							aria-labelledby="dropdownMenuButton">
+						<label for="sel1">Escolha uma AtraÃ§Ã£o:</label> <select
+							class="form-control form-control-lg" name="idAtracao">
 							<%
 								for (Atracao a : listaAtracao) {
 							%>
-							<a class="dropdown-item" value="<%=a.getIdAtracao()%>"><%=a.getNome()%></a>
+							<option value="<%=a.getIdAtracao()%>"><%=a.getNome()%></option>
+
 							<%
 								}
 							%>
-						</div>
+						</select>
 					</div>
 
+
 					<div class="form-group">
-						<button class="btn btn-secondary dropdown-toggle" type="button"
-							id="dropdownMenuButton" data-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">Escolha um
-							Local</button>
-						<div class="dropdown-menu" name="idLocal"
-							aria-labelledby="dropdownMenuButton">
+						<label for="sel1">Escolha um Local:</label> <select
+							class="form-control form-control-lg" name="idLocal">
 							<%
 								for (Local l : listaLocal) {
 							%>
-							<a class="dropdown-item" value="<%=l.getIdLocal()%>"><%=l.getNome()%></a>
+							<option value="<%=l.getIdLocal()%>"><%=l.getNome()%></option>
+
 							<%
 								}
 							%>
-						</div>
+						</select>
 					</div>
-
 					<div class="form-group">
-						<label for="nome">Preço:</label> <input type="text"
-							class="form-control" name="txtPrecoEvento" placeholder="R$">
+						<label for="preco">PreÃ§o:</label> <input id="preco" type="text"
+							class="preco form-control" name="txtPrecoEvento" placeholder="R$" style="display:inline-block">
 					</div>
 
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary" name="cmd"
-							value="cadastrar">Cadastrar</button>
+							value="cadastrar">Salvar</button>
 						<button type="submit" class="btn btn-primary" name="cmd"
 							value="limpar">Limpar</button>
 					</div>
 				</div>
-
-				<div class="container">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Descrição</th>
-								<th>Tema</th>
-								<th>Atração</th>
-								<th>Local</th>
-								<th>Data</th>
-								<th>Preço</th>
-							</tr>
-						</thead>
-						<tbody>
-										<%
-					if (listaEvento.size() > 0) {
-				
-							
-								for (Evento e : listaEvento) {
-							%>
-							<tr>
-								<td><%=e.getDescricao()%></td>
-								<td><%=e.getTema().getDescricao()%></td>
-								<td><%=e.getAtracao().getNome()%></td>
-								<td><%=e.getLocal().getNome()%></td>
-								<td><%=e.getData()%></td>
-								<td><%=e.getPreco()%></td>
-								<td>
-									<div class="form-group">
-										<button type="button" class="btn btn-primary"
-											onclick="remover(<%=e.getIdEvento()%>);">Remover</button>
-										<button type="button" class="btn btn-primary"
-											onclick="editar(<%=e.getIdEvento()%>);">Editar</button>
-
-									</div>
-
-								</td>
-							</tr>
-							<%
-								}
-							%>
-						</tbody>
-					</table>
-				</div>
-				<%
-					}
-				%>
 
 			</form>
 
@@ -275,6 +204,8 @@
 
 	<!-- Menu Toggle Script -->
 	<script>
+
+	
 		$("#menu-toggle").click(function(e) {
 			e.preventDefault();
 			$("#wrapper").toggleClass("toggled");
@@ -282,5 +213,4 @@
 	</script>
 
 </body>
-
 </html>

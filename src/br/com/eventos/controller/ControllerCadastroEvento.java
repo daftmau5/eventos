@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import br.com.eventos.model.Local;
 import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
+@WebServlet("/ControllerCadastroEvento")
 public class ControllerCadastroEvento extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -63,8 +65,7 @@ public class ControllerCadastroEvento extends HttpServlet {
 				}
 			}
 		} else {
-
-			msg = "Você não ta logado";
+			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg);
 			response.sendRedirect("./");
 
@@ -122,7 +123,7 @@ public class ControllerCadastroEvento extends HttpServlet {
 			response.sendRedirect("./ControllerCadastroEvento");
 		} else {
 
-			msg = "Você não ta logado seu merdinha";
+			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg);
 			// response.sendRedirect("./pesquisa_evento.jsp");
 		}

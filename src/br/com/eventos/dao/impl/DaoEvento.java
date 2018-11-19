@@ -1,7 +1,6 @@
 package br.com.eventos.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,15 +33,11 @@ public class DaoEvento {
 
 	public DaoEvento() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			// Class.forName("org.mariadb.jdbc.Driver");
-			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
-			con = DriverManager.getConnection(urldb);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			ConnectionFactory conn = new ConnectionFactory();
+			con = conn.getCon();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
 
 	}
 
@@ -100,6 +95,7 @@ public class DaoEvento {
 				Atracao atracao = daoAtracao.listarById(rs.getInt(4));
 				e.setAtracao(atracao);
 				
+				/*
 				Date dateEvento  = new Date();
 				Calendar calendar = Calendar.getInstance();
 				SimpleDateFormat formatador = new SimpleDateFormat("dd.MM.yyyy");
@@ -110,6 +106,7 @@ public class DaoEvento {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
+				*/
 				
 				e.setDescricao(rs.getString(6));
 

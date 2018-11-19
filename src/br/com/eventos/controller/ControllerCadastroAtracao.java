@@ -58,7 +58,7 @@ public class ControllerCadastroAtracao extends HttpServlet {
 		}
 		
 		session.setAttribute("MENSAGEM", msg);
-		response.sendRedirect("./cadastro_atracao.jsp");
+		response.sendRedirect("./ControlerBuscaAtracao");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

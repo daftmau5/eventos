@@ -1,7 +1,6 @@
 package br.com.eventos.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,13 +23,9 @@ public class UsuarioDAO implements EventosDAO<Usuario> {
 
 	public UsuarioDAO() {
 		try {
-			//Class.forName("org.postgresql.Driver");
-			Class.forName("org.mariadb.jdbc.Driver");
-			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
-			con = DriverManager.getConnection(urldb);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+			ConnectionFactory conn = new ConnectionFactory();
+			con = conn.getCon();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

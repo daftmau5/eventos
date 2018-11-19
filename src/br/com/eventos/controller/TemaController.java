@@ -48,7 +48,6 @@ public class TemaController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 		String cmd = request.getParameter("cmd");
 		String msg = null;
 		HttpSession session = request.getSession();
@@ -62,27 +61,24 @@ public class TemaController extends HttpServlet {
 				tDAO.adicionar(t);
 				msg = "Tema cadastrado com sucesso!!";
 				session.setAttribute("MENSAGEM", msg);
-				response.sendRedirect("./cadastro_concluido.jsp");
+
 
 			} else if ("pesquisar".equals(cmd)) {
 				List<Tema> lista = tDAO.pesquisarporTema(request.getParameter("txtdescricao"));
 				session.setAttribute("LISTA", lista);
 				msg = "Atualmente temos" + lista.size() + " temas cadastrados";
 				session.setAttribute("MENSAGEM", msg);
-				response.sendRedirect("./cadastro_tema.jsp");
 			} else if ("remover".equals(cmd)) {
 				String id = request.getParameter("txtId");
 				tDAO.remover(Long.parseLong(id));
 				msg = "Tema com id" + id + " removido";
 				List<Tema> lista = tDAO.pesquisarporTema("");
 				session.setAttribute("LISTA", lista);
-				response.sendRedirect("./cadastro_tema.jsp");
 			} else if ("editar".equals(cmd)) {
 				String id = request.getParameter("txtId");
 				Tema t = tDAO.pesquisarporId(Long.parseLong(id));
 				session.setAttribute("TEMA_ATUAL", t);
 				msg = "Detalhes do TEMA com o Id " + id;
-				response.sendRedirect("./cadastro_tema.jsp");
 			} else if ("salvar".equals(cmd)) {
 				Tema t = new Tema();
 				String id = request.getParameter("txtId");
@@ -91,14 +87,13 @@ public class TemaController extends HttpServlet {
 				List<Tema> lista = tDAO.pesquisarporTema("");
 				session.setAttribute("LISTA", lista);
 				msg = "Tema salvo com sucesso";
-				response.sendRedirect("./cadastro_tema.jsp");
 
 			}
-
 		} catch (GenericDAOException | NumberFormatException e) {
 			e.printStackTrace();
 			msg = "erro ao adicionar este tema";
 		}
+		response.sendRedirect("./TemaController");
 
 	}
 	

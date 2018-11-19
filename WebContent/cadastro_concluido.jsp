@@ -39,8 +39,8 @@
 				<li>
 					<h4 style="color: white;">Evento</h4>
 					<ul>
-						<a href="./PesquisaEvento">Buscar</a>
-						<a href="./CadastroEvento">Cadastrar</a>
+						<a href="./ControllerPesquisaEvento">Buscar</a>
+						<a href="./ControllerCadastroEvento">Cadastrar</a>
 						<a href="#">Reservas</a>
 					</ul>
 				</li>

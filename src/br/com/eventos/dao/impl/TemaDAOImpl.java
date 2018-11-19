@@ -1,7 +1,6 @@
 package br.com.eventos.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,10 +17,9 @@ public class TemaDAOImpl implements TemaDAO {
 	
 	public TemaDAOImpl() throws GenericDAOException {
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
-			con = DriverManager.getConnection(urldb);
-		}catch(SQLException | ClassNotFoundException e) {
+			ConnectionFactory conn = new ConnectionFactory();
+			con = conn.getCon();
+		}catch(Exception e) {
 			throw new GenericDAOException(e);
 		}
 	}
