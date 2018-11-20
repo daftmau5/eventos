@@ -1,7 +1,7 @@
-<%@page import="br.com.eventos.dao.impl.AtracaoDAO"%>
+<%@page import="br.com.eventos.dao.impl.DAOAtracao"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ page import="br.com.eventos.model.Evento, br.com.eventos.model.Atracao, br.com.eventos.model.Tema, br.com.eventos.model.Local, java.util.List, java.util.ArrayList"%>   
+<%@ page import="br.com.eventos.model.Evento,br.com.eventos.model.Atracao,br.com.eventos.model.Tema,br.com.eventos.model.Local,java.util.List,java.util.ArrayList"%>   
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -48,27 +48,27 @@
 
 <body>
 
-	<% 
-		AtracaoDAO ad = new AtracaoDAO();
-		String msg = (String)session.getAttribute("MENSAGEM");
-		List<Atracao> lista = ad.listar(); /*Alterar para o pesquisar funcionar*/
-		
-		if (lista == null) {
-			lista = new ArrayList<Atracao>();
-		}else{
-			session.setAttribute("LISTA", null);
-		}
-		
-		Atracao atracaoEdit = (Atracao)session.getAttribute("ATRACAO_EDITAR");
-		   if (atracaoEdit == null) { 
-			   atracaoEdit = new Atracao();
-		   } else { 
-			   session.setAttribute("ATRACAO_EDITAR", null);
-		   }
-		
-		if (msg != null) {
-		   session.setAttribute("MENSAGEM", null);
-		%>
+	<%
+		DAOAtracao ad = new DAOAtracao();
+			String msg = (String)session.getAttribute("MENSAGEM");
+			List<Atracao> lista = ad.listar(); /*Alterar para o pesquisar funcionar*/
+			
+			if (lista == null) {
+		lista = new ArrayList<Atracao>();
+			}else{
+		session.setAttribute("LISTA", null);
+			}
+			
+			Atracao atracaoEdit = (Atracao)session.getAttribute("ATRACAO_EDITAR");
+			   if (atracaoEdit == null) { 
+		   atracaoEdit = new Atracao();
+			   } else { 
+		   session.setAttribute("ATRACAO_EDITAR", null);
+			   }
+			
+			if (msg != null) {
+			   session.setAttribute("MENSAGEM", null);
+	%>
 			<h3 class="alert alert-danger"><%=msg%></h3>
 	<% } %>
 	

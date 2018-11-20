@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.eventos.dao.GenericDAOException;
-import br.com.eventos.dao.TemaDAO;
-import br.com.eventos.dao.impl.TemaDAOImpl;
+import br.com.eventos.dao.impl.DAOTema;
 import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
@@ -20,10 +19,10 @@ import br.com.eventos.model.Usuario;
  * Servlet implementation class TemaController
  */
 @WebServlet("/TemaController")
-public class TemaController extends HttpServlet {
+public class ControllerTema extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public TemaController() {
+	public ControllerTema() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -52,7 +51,7 @@ public class TemaController extends HttpServlet {
 		String msg = null;
 		HttpSession session = request.getSession();
 		try {
-			TemaDAO tDAO = new TemaDAOImpl();
+			DAOTema tDAO = new DAOTema();
 			if ("cadastrar".equals(cmd)) {
 				Tema t = new Tema();
 

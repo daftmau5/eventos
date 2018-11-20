@@ -10,7 +10,7 @@ import java.util.List;
 
 import br.com.eventos.model.Atracao;
 
-public class AtracaoDAO {
+public class DAOAtracao {
 	
 	Connection con;
 	
@@ -19,7 +19,7 @@ public class AtracaoDAO {
 		return rs;
 	}
 	
-	public AtracaoDAO() {
+	public DAOAtracao() {
         try {
         	ConnectionFactory conn = new ConnectionFactory();
 			con = conn.getCon();

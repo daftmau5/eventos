@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.eventos.dao.GenericDAOException;
-import br.com.eventos.dao.impl.LocalDAOImpl;
+import br.com.eventos.dao.impl.DAOLocal;
 import br.com.eventos.model.Local;
 import br.com.eventos.model.Usuario;
 
@@ -19,10 +19,10 @@ import br.com.eventos.model.Usuario;
  * Servlet implementation class 
  */
 @WebServlet("/LocalController")
-public class LocalController extends HttpServlet {
+public class ControllerLocal extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public LocalController() {
+	public ControllerLocal() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -48,7 +48,7 @@ public class LocalController extends HttpServlet {
 		String msg = null;
 		HttpSession session = request.getSession();
 		try {
-			LocalDAOImpl lDAO = new LocalDAOImpl();
+			DAOLocal lDAO = new DAOLocal();
 			if ("cadastrar".equals(cmd)) {
 				Local l = new Local();
 				l.setNome(request.getParameter("txtNomeLocal"));

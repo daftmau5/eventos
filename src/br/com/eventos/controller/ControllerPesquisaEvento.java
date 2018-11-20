@@ -1,10 +1,6 @@
 package br.com.eventos.controller;
 
 import java.io.IOException;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,15 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.eventos.dao.impl.AtracaoDAO;
 import br.com.eventos.dao.impl.DAOExcep;
-import br.com.eventos.dao.impl.DaoEvento;
-import br.com.eventos.dao.impl.DaoLocal;
-import br.com.eventos.dao.impl.DaoTema;
-import br.com.eventos.model.Atracao;
+import br.com.eventos.dao.impl.DAOLocal;
+import br.com.eventos.dao.impl.DAOEvento;
 import br.com.eventos.model.Evento;
 import br.com.eventos.model.Local;
-import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
 @WebServlet("/ControllerPesquisaEvento")
@@ -35,13 +27,12 @@ public class ControllerPesquisaEvento extends HttpServlet {
 		String msg = null;
 		HttpSession session = request.getSession();
 
-
-		Usuario user = (Usuario)session.getAttribute("USUARIO_LOGADO");
-		if(!(user.getEmail()==null)) {
+		Usuario user = (Usuario) session.getAttribute("USUARIO_LOGADO");
+		if (!(user.getEmail() == null)) {
 
 			try {
-				DaoLocal localDao = new DaoLocal();
-				DaoEvento eventoDao = new DaoEvento();
+				DAOLocal localDao = new DAOLocal();
+				DAOEvento eventoDao = new DAOEvento();
 
 				List<Evento> listaEvento = eventoDao.listar();
 				session.setAttribute("LISTA_EVENTO", listaEvento);
@@ -77,13 +68,8 @@ public class ControllerPesquisaEvento extends HttpServlet {
 		Usuario user = (Usuario) session.getAttribute("USUARIO_LOGADO");
 		if (!(user == null)) {
 
-			DaoEvento eventoDao = new DaoEvento();
-			DaoLocal localDao = new DaoLocal();
-
-			Tema tema = new Tema();
-			Atracao atracao = new Atracao();
-			Evento evento = new Evento();
-			Local local = new Local();
+			DAOEvento eventoDao = new DAOEvento();
+			DAOLocal localDao = new DAOLocal();
 
 			try {
 
@@ -96,7 +82,9 @@ public class ControllerPesquisaEvento extends HttpServlet {
 					msg = "Evento com o Id " + id + " foi removido";
 					List<Evento> listaEvento = eventoDao.listar();
 					session.setAttribute("LISTA_EVENTO", listaEvento);
+					response.sendRedirect("./pesquisa_evento.jsp");
 				} else if ("pesquisar".equals(cmd)) {
+					Local local = new Local();
 					Evento e = new Evento();
 					e.setDescricao(request.getParameter("txtDescricaoEvento"));
 
@@ -113,7 +101,14 @@ public class ControllerPesquisaEvento extends HttpServlet {
 
 					session.setAttribute("LISTA_EVENTO", listaEventos);
 					msg = "Foram encontrados " + listaEventos.size() + " eventos";
+					response.sendRedirect("./pesquisa_evento.jsp");
+				} else if ("detalhes".equals(cmd)) {
 
+					Evento e = new Evento();
+					String id = request.getParameter("txtId");
+					e = eventoDao.listarById(Long.parseLong(id));
+					session.setAttribute("EVENTO_ATUAL", e);
+					response.sendRedirect("./detalhe_evento.jsp");
 				}
 
 			} catch (DAOExcep /* | ParseException */ e) {
@@ -126,13 +121,14 @@ public class ControllerPesquisaEvento extends HttpServlet {
 			}
 
 			session.setAttribute("MENSAGEM", msg);
-			response.sendRedirect("./pesquisa_evento.jsp");
+
 		} else {
 			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg);
 			// response.sendRedirect("./pesquisa_evento.jsp");
 
 		}
+
 	}
 
 }

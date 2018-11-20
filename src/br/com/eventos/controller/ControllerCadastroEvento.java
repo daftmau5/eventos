@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.eventos.dao.impl.AtracaoDAO;
+import br.com.eventos.dao.impl.DAOAtracao;
 import br.com.eventos.dao.impl.DAOExcep;
-import br.com.eventos.dao.impl.DaoEvento;
-import br.com.eventos.dao.impl.DaoLocal;
-import br.com.eventos.dao.impl.DaoTema;
+import br.com.eventos.dao.impl.DAOLocal;
+import br.com.eventos.dao.impl.DAOTema;
+import br.com.eventos.dao.impl.DAOEvento;
 import br.com.eventos.model.Atracao;
 import br.com.eventos.model.Evento;
 import br.com.eventos.model.Local;
@@ -41,9 +41,9 @@ public class ControllerCadastroEvento extends HttpServlet {
 		if(!(user==null)) {
 
 			try {
-				DaoTema temaDao = new DaoTema();
-				AtracaoDAO atracaoDao = new AtracaoDAO();
-				DaoLocal localDao = new DaoLocal();
+				DAOTema temaDao = new DAOTema();
+				DAOAtracao atracaoDao = new DAOAtracao();
+				DAOLocal localDao = new DAOLocal();
 
 				List<Tema> listaTema = temaDao.listar();
 				session.setAttribute("LISTA_TEMA", listaTema);
@@ -80,7 +80,7 @@ public class ControllerCadastroEvento extends HttpServlet {
 		Usuario user = (Usuario) session.getAttribute("USUARIO_LOGADO");
 		if (!(user == null)) {
 
-			DaoEvento eventoDao = new DaoEvento();
+			DAOEvento eventoDao = new DAOEvento();
 
 			Tema tema = new Tema();
 			Atracao atracao = new Atracao();

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import br.com.eventos.dao.impl.AtracaoDAO;
+import br.com.eventos.dao.impl.DAOAtracao;
 import br.com.eventos.dao.impl.DAOExcep;
 import br.com.eventos.model.Atracao;
 import br.com.eventos.model.Usuario;
@@ -23,7 +23,7 @@ public class ControllerCadastroAtracao extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	AtracaoDAO ad = new AtracaoDAO();
+	DAOAtracao ad = new DAOAtracao();
 	
 	public ControllerCadastroAtracao() {
 		super();

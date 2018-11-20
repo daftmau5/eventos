@@ -8,10 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.eventos.dao.EventosDAO;
 import br.com.eventos.model.Usuario;
 
-public class UsuarioDAO implements EventosDAO<Usuario> {
+public class DAOUsuario {
 
 	private Connection con;
 	private ResultSet rs;
@@ -21,7 +20,7 @@ public class UsuarioDAO implements EventosDAO<Usuario> {
 		return rs;
 	}
 
-	public UsuarioDAO() {
+	public DAOUsuario() {
 		try {
 			ConnectionFactory conn = new ConnectionFactory();
 			con = conn.getCon();
@@ -63,7 +62,6 @@ public class UsuarioDAO implements EventosDAO<Usuario> {
 
 	}
 
-	@Override
 	public void adicionar(Usuario u) throws DAOExcep {
 		try {
 			String sql = "INSERT INTO tbUsuario (login, email, senha, cpf, endereco, telefone) VALUES (?, ?, ?, ?, ?, ?)";
@@ -80,7 +78,6 @@ public class UsuarioDAO implements EventosDAO<Usuario> {
 		}
 	}
 
-	@Override
 	public List<Usuario> listar() {
 		ArrayList<Usuario> array = new ArrayList<>();
 		try {
@@ -103,7 +100,6 @@ public class UsuarioDAO implements EventosDAO<Usuario> {
 		}
 	}
 
-	@Override
 	public Usuario pesquisarPorId(long id) throws DAOExcep {
 		try {
 			Usuario u = new Usuario();
@@ -127,7 +123,6 @@ public class UsuarioDAO implements EventosDAO<Usuario> {
 		}
 	}
 
-	@Override
 	public void excluir(int id) {
 		try {
 			String sql = "DELETE FROM tbUsuario WHERE idUsuario = ?";

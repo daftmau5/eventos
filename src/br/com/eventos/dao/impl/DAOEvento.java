@@ -5,10 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import br.com.eventos.model.Atracao;
 import br.com.eventos.model.Evento;
@@ -16,22 +13,22 @@ import br.com.eventos.model.Local;
 import br.com.eventos.model.Tema;
 import br.com.eventos.model.Usuario;
 
-public class DaoEvento {
+public class DAOEvento {
 
 	private Connection con;
 
-	private DaoTema daoTema;
+	private DAOTema daoTema;
 
-	private AtracaoDAO daoAtracao;
+	private DAOAtracao daoAtracao;
 
-	private DaoLocal daoLocal;
+	private DAOLocal daoLocal;
 
 	public ResultSet executeQuery(String sql, Statement stmt) throws SQLException {
 		ResultSet rs = stmt.executeQuery(sql);
 		return rs;
 	}
 
-	public DaoEvento() {
+	public DAOEvento() {
 		try {
 			ConnectionFactory conn = new ConnectionFactory();
 			con = conn.getCon();
@@ -78,9 +75,9 @@ public class DaoEvento {
 			ResultSet rs = executeQuery("select * from tbEvento;", con.createStatement());
 			while (rs.next()) {
 				Evento e = new Evento();
-				daoTema = new DaoTema();
-				daoAtracao = new AtracaoDAO();
-				daoLocal = new DaoLocal();
+				daoTema = new DAOTema();
+				daoAtracao = new DAOAtracao();
+				daoLocal = new DAOLocal();
 				
 				e.setIdEvento(rs.getInt(1));
 				
@@ -153,9 +150,9 @@ public class DaoEvento {
 
 			while (rs.next()) {
 				Evento e = new Evento();
-				daoTema = new DaoTema();
-				daoAtracao = new AtracaoDAO();
-				daoLocal = new DaoLocal();
+				daoTema = new DAOTema();
+				daoAtracao = new DAOAtracao();
+				daoLocal = new DAOLocal();
 				
 				e.setIdEvento(rs.getInt(1));
 				
@@ -170,6 +167,7 @@ public class DaoEvento {
 				Atracao atracao = daoAtracao.listarById(rs.getInt(4));
 				e.setAtracao(atracao);
 				
+				/*
 				Date dateEvento  = new Date();
 				Calendar calendar = Calendar.getInstance();
 				SimpleDateFormat formatador = new SimpleDateFormat("dd.MM.yyyy");
@@ -180,6 +178,7 @@ public class DaoEvento {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
+				*/
 
 				e.setDescricao(rs.getString(6));
 
@@ -196,4 +195,57 @@ public class DaoEvento {
 			return array;
 		}
 	}
+	
+	public Evento listarById(long id) throws DAOExcep {
+		Evento evento = new Evento();
+		String sql = "SELECT * FROM tbEvento WHERE idEvento = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) { 
+				daoTema = new DAOTema();
+				daoAtracao = new DAOAtracao();
+				daoLocal = new DAOLocal();
+				
+				evento.setIdEvento(rs.getInt(1));
+				
+				Usuario usuario = new Usuario();
+				usuario.setIdUsuario(rs.getInt(2));
+
+				Tema tema = new Tema();
+				
+				tema = daoTema.listarById(rs.getInt(3));
+				evento.setTema(tema);
+				
+				Atracao atracao = daoAtracao.listarById(rs.getInt(4));
+				evento.setAtracao(atracao);
+				
+				/*
+				Date dateEvento  = new Date();
+				Calendar calendar = Calendar.getInstance();
+				SimpleDateFormat formatador = new SimpleDateFormat("dd.MM.yyyy");
+				try {
+					dateEvento = formatador.parse(rs.getTimestamp(5).toString());
+					calendar.setTime(dateEvento);
+					evento.setData(calendar);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				*/
+
+				evento.setDescricao(rs.getString(6));
+
+				evento.setPreco(rs.getDouble(7));
+
+				Local local = daoLocal.listarById(rs.getInt(8));
+				evento.setLocal(local);
+				
+			}
+		} catch (SQLException e) {
+			throw new DAOExcep( e );
+		}
+		return evento;
+	}
+	
 }

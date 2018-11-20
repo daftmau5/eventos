@@ -25,7 +25,7 @@
 <!-- Custom styles for this template -->
 <link href="front/css/simple-sidebar.css" rel="stylesheet">
 
-	<script>
+<script>
 		function remover( id ) {
 			if (confirm("Remove o evento com id " + id)) {
 				$('#formEvento').empty();
@@ -40,30 +40,34 @@
 			$('#formEvento').append('<input type="hidden" name="txtId" value="' + id + '"/>');
 			$('#formEvento').append('<input type="hidden" name="cmd" value="editar"/>');
 			$('#formEvento').submit();
-		}		
+		}
+		
+		function detalhes( id ) {
+			$('#formEvento').empty();
+			$('#formEvento').append('<input type="hidden" name="txtId" value="' + id + '"/>');
+			$('#formEvento').append('<input type="hidden" name="cmd" value="detalhes"/>');
+			$('#formEvento').submit();
+		}
 	</script>
 
 </head>
 <body>
-
 	<form action="./ControllerPesquisaEvento" method="get">
-		<% 
+		<%
 			List<Local> listaLocal = (List<Local>) session.getAttribute("LISTA_LOCAL");
 			List<Evento> listaEvento = (List<Evento>) session.getAttribute("LISTA_EVENTO");
 
-		
 			if (listaEvento == null) {
 				listaEvento = new ArrayList<Evento>();
 			} else {
 				session.setAttribute("LISTA_EVENTO", null);
 			}
-	
+
 			if (listaLocal == null) {
 				listaLocal = new ArrayList<Local>();
 			} else {
 				session.setAttribute("LISTA_LOCAL", null);
 			}
-		
 		%>
 	</form>
 	<%
@@ -168,6 +172,7 @@
 				</div>
 
 				<div class="container">
+				
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -198,16 +203,17 @@
 											onclick="remover(<%=e.getIdEvento()%>);">Remover</button>
 										<button type="button" class="btn btn-primary"
 											onclick="editar(<%=e.getIdEvento()%>);">Editar</button>
-
+										<button type="button" class="btn btn-primary" onclick="detalhes(<%=e.getIdEvento()%>);">Detalhes</button>
 									</div>
-
 								</td>
 							</tr>
+					
 							<%
 								}
 							%>
 						</tbody>
 					</table>
+					
 				</div>
 				<%
 					}

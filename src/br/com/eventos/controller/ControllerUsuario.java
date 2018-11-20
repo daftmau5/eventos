@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.eventos.dao.impl.DAOExcep;
-import br.com.eventos.dao.impl.UsuarioDAO;
+import br.com.eventos.dao.impl.DAOUsuario;
 import br.com.eventos.model.Usuario;
 
 @WebServlet("/ControllerUsuario")
@@ -21,7 +21,7 @@ public class ControllerUsuario extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	UsuarioDAO usuarioDao = new UsuarioDAO();
+	DAOUsuario usuarioDao = new DAOUsuario();
 
 	public ControllerUsuario() {
 		super();
