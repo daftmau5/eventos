@@ -91,7 +91,7 @@
 				<li>
 					<h4 style="color: white;">Local</h4>
 					<ul>
-						<a href="#">Buscar</a>
+						<a href="./LocalController">Buscar</a>
 						<a href="./LocalController">Cadastrar</a>
 					</ul>
 				</li>
@@ -105,7 +105,7 @@
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
-						<a href="#">Buscar</a>
+						<a href="./TemaController">Buscar</a>
 						<a href="./TemaController">Cadastrar</a>
 					</ul>
 				</li>
@@ -119,10 +119,19 @@
 		<form id="formTema" action="./TemaController" method="post">
 			<div class="container-fluid">
 				<h1>Cadastro de Temas</h1>
+				
+				
+				<%if(temaAtual.getIdTema()==0){ %>
 				<!-- <div class="form-group">
     				<label for="txtId">Id</label>
     				<input type="text" class="form-control" id="txtId" name="txtId" value="<%=temaAtual.getIdTema()%>" readonly/>
-  				</div>-->
+  				</div>--><%}else{ %>
+  				<div class="form-group">
+    				<label for="txtId">Id</label>
+    				<input type="text" class="form-control" id="txtId" name="txtId" value="<%=temaAtual.getIdTema()%>" readonly/>
+  				</div><%} %>
+  				
+  				
 				<div class="form-group">
 					<label for="nome">Descrição:</label> 
 					<input type="text" class="form-control" id="txtdescricao" name="txtdescricao"  value="<%=temaAtual.getDescricao() %>" placeholder="Digite a Descrição do tema">

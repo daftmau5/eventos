@@ -98,11 +98,11 @@ public class TemaDAOImpl implements TemaDAO {
 
 	
 	public void salvar(long id, Tema t) throws GenericDAOException {
-		String sql = "UPDATE tbTema set descricao = ? WHERE idTema = ?";
+		String sql = "UPDATE tbTema SET descricao = ? WHERE idTema = ?";
 		try {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getDescricao());
-			pstmt.setLong(2, t.getIdTema());
+			pstmt.setLong(2, id);
 			pstmt.executeUpdate();
 		}catch(SQLException e) {
 			throw new GenericDAOException(e);

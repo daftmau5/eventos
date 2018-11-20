@@ -82,6 +82,7 @@ public class TemaController extends HttpServlet {
 			} else if ("salvar".equals(cmd)) {
 				Tema t = new Tema();
 				String id = request.getParameter("txtId");
+				System.out.println(id);
 				t.setDescricao(request.getParameter("txtdescricao"));
 				tDAO.salvar(Long.parseLong(id), t);
 				List<Tema> lista = tDAO.pesquisarporTema("");
