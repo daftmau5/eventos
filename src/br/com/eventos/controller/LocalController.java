@@ -16,7 +16,7 @@ import br.com.eventos.model.Local;
 import br.com.eventos.model.Usuario;
 
 /**
- * Servlet implementation class TemaController
+ * Servlet implementation class 
  */
 @WebServlet("/LocalController")
 public class LocalController extends HttpServlet {
@@ -44,7 +44,6 @@ public class LocalController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 		String cmd = request.getParameter("cmd");
 		String msg = null;
 		HttpSession session = request.getSession();
@@ -55,13 +54,22 @@ public class LocalController extends HttpServlet {
 				l.setNome(request.getParameter("txtNomeLocal"));
 				l.setTelefone(request.getParameter("txtTelefone"));
 				l.setCapacidade(Integer.parseInt(request.getParameter("txtCapacidade")));
-				l.setAreaFumante(Boolean.parseBoolean(request.getParameter("txtAreaFumante")));
+				System.out.println(request.getParameter("txtAreaFumante"));
+				if("fumante".equals(request.getParameter("txtAreaFumante"))){
+					l.setAreaFumante(true);
+				}else {
+					l.setAreaFumante(false);
+				}
+				//l.setAreaFumante(Boolean.parseBoolean(request.getParameter("txtAreaFumante")));
 				l.setEndereco(request.getParameter("txtEndereco"));
-				l.setVip(Boolean.parseBoolean(request.getParameter("txtVip")));
+				if("vip".equals(request.getParameter("txtAreaVip"))){
+					l.setVip(true);
+				}else {
+					l.setVip(false);
+				}
 				
-
 				lDAO.adicionar(l);
-				msg = "Tema cadastrado com sucesso!!";
+				msg = "Local cadastrado com sucesso!!";
 
 			} else if ("pesquisar".equals(cmd)) {
 				List<Local> lista = lDAO.pesquisaLocal(request.getParameter("txtNomeLocal"));
@@ -74,6 +82,36 @@ public class LocalController extends HttpServlet {
 				List<Local> lista = lDAO.pesquisaLocal("");
 				session.setAttribute("LISTA", lista);
 				//response.sendRedirect("./cadastro_local.jsp");
+			} else if("editar".equals(cmd)) {
+				String id = request.getParameter("txtId");
+				Local l = lDAO.pesquisarporId(Long.parseLong(id));
+				System.out.println(l.getNome());
+				session.setAttribute("LOCAL_ATUAL", l);
+				msg = "Detalhes do tema com o ID  "+ id;
+			} else if("salvar".equals(cmd)) {
+				Local l = new Local();
+				String id = request.getParameter("txtId");
+				l.setNome(request.getParameter("txtNomeLocal"));
+				l.setTelefone(request.getParameter("txtTelefone"));
+				l.setCapacidade(Integer.parseInt(request.getParameter("txtCapacidade")));
+				if("fumante".equals(request.getParameter("txtAreaFumante"))){
+					l.setAreaFumante(true);
+				}else {
+					l.setAreaFumante(false);
+				}
+				//l.setAreaFumante(Boolean.parseBoolean(request.getParameter("txtAreaFumante")));
+				l.setEndereco(request.getParameter("txtEndereco"));
+				if("vip".equals(request.getParameter("txtAreaVip"))){
+					l.setVip(true);
+				}else {
+					l.setVip(false);
+				}
+				System.out.println(l.getIdLocal());
+				lDAO.salvar(Long.parseLong(id), l);
+				List<Local> lista = lDAO.pesquisaLocal("");
+				session.setAttribute("LISTA", lista);
+				msg = "Local salvo com sucesso ";
+				
 			}
 		} catch (GenericDAOException | NumberFormatException e) {
 			e.printStackTrace();
@@ -81,6 +119,6 @@ public class LocalController extends HttpServlet {
 		}
 		
 		session.setAttribute("MENSAGEM", msg);
-		response.sendRedirect("./cadastro_local.jsp");
+		response.sendRedirect("./LocalController");
 	}
 }

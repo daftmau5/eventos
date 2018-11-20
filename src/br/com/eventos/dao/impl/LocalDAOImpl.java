@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.eventos.dao.GenericDAOException;
 import br.com.eventos.model.Local;
+import br.com.eventos.model.Tema;
 
 public class LocalDAOImpl {
 	private Connection con;
@@ -76,6 +77,51 @@ public class LocalDAOImpl {
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 		}catch(SQLException e){
+			throw new GenericDAOException(e);
+		}
+	}
+	
+	
+	public Local pesquisarporId(long id) throws GenericDAOException {
+		Local l = new Local();
+		String sql = "SELECT * FROM tbLocal WHERE idLocal = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setLong(1, id);
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					l.setIdLocal(rs.getInt("idLocal"));
+					l.setNome(rs.getString("nome"));
+					l.setTelefone(rs.getString("telefone"));
+					l.setCapacidade(rs.getInt("capacidade"));
+					l.setAreaFumante(rs.getBoolean("areaFumante"));
+					l.setEndereco(rs.getString("endereco"));
+					l.setVip(rs.getBoolean("vip"));
+				}
+		}catch(SQLException e) {
+			throw new GenericDAOException(e);	
+		}
+			
+		return l;
+		
+	}
+	
+	
+	public void salvar(long id, Local l) throws GenericDAOException {
+		String sql = "UPDATE tbLocal SET nome = ?, telefone = ?, capacidade = ?, areaFumante = ?, "
+				+ "endereco = ?, vip = ? WHERE idLocal = ?";
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, l.getNome());
+			pstmt.setString(2, l.getTelefone());
+			pstmt.setInt(3, l.getCapacidade());
+			pstmt.setBoolean(4, l.isAreaFumante());
+			pstmt.setString(5, l.getEndereco());
+			pstmt.setBoolean(6,  l.isVip());
+			pstmt.setLong(7, id);
+			
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
 			throw new GenericDAOException(e);
 		}
 	}
