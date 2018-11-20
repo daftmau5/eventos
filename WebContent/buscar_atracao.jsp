@@ -72,10 +72,7 @@
 			<h3 class="alert alert-danger"><%=msg%></h3>
 	<% } %>
 	
-	<div id="wrapper">
-
-		<!-- Sidebar -->
-		<div id="sidebar-wrapper">
+	<div id="sidebar-wrapper">
 			<ul class="sidebar-nav">
 				<li class="sidebar-brand">
 					<h2 href="#" style="color: #6495ED;">E-Vents</h2>
@@ -91,7 +88,6 @@
 				<li>
 					<h4 style="color: white;">Local</h4>
 					<ul>
-						<a href="#">Buscar</a>
 						<a href="./LocalController">Cadastrar</a>
 					</ul>
 				</li>
@@ -105,8 +101,13 @@
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
-						<a href="#">Buscar</a>
 						<a href="./TemaController">Cadastrar</a>
+					</ul>
+				</li>
+				<li>
+					<h4 style="color: white;">Meu Perfil</h4>
+					<ul>
+						<a href="./ControllerUsuario">Alterar</a>
 					</ul>
 				</li>
 			</ul>

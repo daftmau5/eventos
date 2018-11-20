@@ -29,9 +29,16 @@ public class ControllerUsuario extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		response.sendRedirect("./cadastro_usuario.jsp");
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		HttpSession session = request.getSession();
+		Usuario user = (Usuario)session.getAttribute("USUARIO_LOGADO");
+		if(!(user==null)) {
+			response.sendRedirect("./editar_usuario.jsp");
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		}else {
+			response.sendRedirect("./cadastro_usuario.jsp");
+			response.getWriter().append("Served at: ").append(request.getContextPath());
+		}
+		
 
 	}
 
@@ -54,6 +61,25 @@ public class ControllerUsuario extends HttpServlet {
 				System.out.println(usuario.getLogin());
 				usuarioDao.adicionar(usuario);
 				msg = "Usuario foi adicionado com sucesso";
+				session.setAttribute("MENSAGEM", msg);
+				response.sendRedirect("./");
+			} else if("editar".equals(cmd)) {
+				System.out.println("Editando usuario");
+				Usuario usuario = new Usuario();
+				usuario.setIdUsuario(Integer.parseInt(request.getParameter("txtIdUsuario")));
+				usuario.setLogin(request.getParameter("txtLogin"));
+				usuario.setSenha(request.getParameter("txtSenha"));
+				usuario.setCPF(request.getParameter("txtCPF"));
+				usuario.setEmail(request.getParameter("txtEmail"));
+				usuario.setEndereco(request.getParameter("txtEndereco"));
+				usuario.setTelefone(request.getParameter("txtTelefone"));
+				System.out.println(usuario.getLogin());
+				usuarioDao.atualizar(usuario);
+				msg = "Usuario foi atualizado com sucesso";
+				session.setAttribute("MENSAGEM", msg);
+				session.setAttribute("USUARIO_LOGADO", usuario);
+				System.out.println(msg);
+				response.sendRedirect("./ControllerUsuario");
 			} else if ("cancelar".equals(cmd)) {
 				msg = "Cancelado";
 			}
@@ -67,7 +93,6 @@ public class ControllerUsuario extends HttpServlet {
 			}
 		}
 
-		session.setAttribute("MENSAGEM", msg);
-		response.sendRedirect("./");
+		
 	}
 }

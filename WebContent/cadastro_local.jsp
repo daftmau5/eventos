@@ -93,7 +93,6 @@
 				<li>
 					<h4 style="color: white;">Local</h4>
 					<ul>
-						<a href="#">Buscar</a>
 						<a href="./LocalController">Cadastrar</a>
 					</ul>
 				</li>
@@ -107,8 +106,13 @@
 				<li>
 					<h4 style="color: white;">Tema</h4>
 					<ul>
-						<a href="#">Buscar</a>
 						<a href="./TemaController">Cadastrar</a>
+					</ul>
+				</li>
+				<li>
+					<h4 style="color: white;">Meu Perfil</h4>
+					<ul>
+						<a href="./ControllerUsuario">Alterar</a>
 					</ul>
 				</li>
 			</ul>

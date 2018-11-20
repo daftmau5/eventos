@@ -77,6 +77,24 @@ public class DAOUsuario {
 			e.printStackTrace();
 		}
 	}
+	
+	public void atualizar(Usuario u) throws DAOExcep {
+		System.out.println("Chegou no dao");
+		try {
+			String sql = "update tbUsuario set login = ?, email = ?, senha = ?, cpf = ?, endereco = ?, telefone = ? where idUsuario = ?;";
+			PreparedStatement stmt = con.prepareStatement(sql);
+			stmt.setString(1, u.getLogin());
+			stmt.setString(2, u.getEmail());
+			stmt.setString(3, u.getSenha());
+			stmt.setString(4, u.getCPF());
+			stmt.setString(5, u.getEndereco());
+			stmt.setString(6, u.getTelefone());
+			stmt.setLong(7, u.getIdUsuario());
+			stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public List<Usuario> listar() {
 		ArrayList<Usuario> array = new ArrayList<>();
