@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class ConnectionFactory {
 
-	public Connection con;
+	public static Connection con;
 
 	public ResultSet executeQuery(String sql, Statement stmt) throws SQLException {
 		ResultSet rs = stmt.executeQuery(sql);
@@ -17,10 +17,14 @@ public class ConnectionFactory {
 
 	public ConnectionFactory() {
 		try {
-			//Class.forName("com.mysql.jdbc.Driver");
+			// Class.forName("com.mysql.jdbc.Driver");
 			Class.forName("org.mariadb.jdbc.Driver");
 			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
-			con = DriverManager.getConnection(urldb);
+			if (con != null) {
+				System.out.println("Utilizando coonexão existente");
+			} else {
+				con = DriverManager.getConnection(urldb);
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -32,6 +36,5 @@ public class ConnectionFactory {
 	public Connection getCon() {
 		return con;
 	}
-	
-	
+
 }
