@@ -47,20 +47,35 @@ public class DAOReserva {
 	}
 
 	public ArrayList<Reserva> listar(int id)  throws SQLException {
+		try {
+			
 		ArrayList<Reserva> array = new ArrayList<>();
 
-		String sql = "select * from tbReserva where idUsuario = ?";
+		String sql = "select * from tbReserva where usuario_id = ?";
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setInt(1, id);
 		ResultSet rs = pstmt.executeQuery();
+		
+		DAOEvento eventoDao = new DAOEvento();
+		DAOUsuario usuarioDao = new DAOUsuario();
 
 		while (rs.next()) {
 
 			Reserva r = new Reserva();
+		
+			r.setIdReserva(rs.getInt(1));
 
+				
+				r.setEvento(eventoDao.listarById(rs.getInt(3)));
+				r.setStatus(rs.getString(5));
 			array.add(r);
 		}
 		return array;
+		} catch (DAOExcep e) {
+			e.printStackTrace();
+			return null;
+		}
+	
 
 	}
 

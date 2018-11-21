@@ -54,7 +54,7 @@ public class ControllerPesquisaEvento extends HttpServlet {
 
 			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg);
-			// response.sendRedirect("./pesquisa_evento.jsp");
+			response.sendRedirect("./");
 
 		}
 	}
@@ -78,8 +78,7 @@ public class ControllerPesquisaEvento extends HttpServlet {
 
 				if ("remover".equals(cmd)) {
 					String id = request.getParameter("txtId");
-					eventoDao.excluir(Integer.parseInt(id));
-					msg = "Evento com o Id " + id + " foi removido";
+					msg = eventoDao.excluir(Integer.parseInt(id));
 					List<Evento> listaEvento = eventoDao.listar();
 					session.setAttribute("LISTA_EVENTO", listaEvento);
 					response.sendRedirect("./pesquisa_evento.jsp");

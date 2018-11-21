@@ -43,7 +43,7 @@
 					<ul>
 						<a href="./ControllerPesquisaEvento">Buscar</a>
 						<a href="./ControllerCadastroEvento">Cadastrar</a>
-						<a href="#">Reservas</a>
+						<a href="./ControllerReservaEvento">Reservas</a>
 					</ul>
 				</li>
 				<li>
@@ -85,12 +85,12 @@
 				
 				<div class="form-group">
 					<label for="nome">Nome:</label> 
-					<input type="text" class="form-control" name="txtNomeAtracao" placeholder="Digite o Nome">
+					<input required type="text" class="form-control" name="txtNomeAtracao" placeholder="Digite o Nome">
 				</div>
 				
 				<div class="form-group">
 					<label for="nome">Descrição:</label> 
-					<input type="text" class="form-control" name="txtDescricaoAtracao" placeholder="Digite a Descrição">
+					<input required type="text" class="form-control" name="txtDescricaoAtracao" placeholder="Digite a Descrição">
 				</div>
 				
 				<div class="form-group">

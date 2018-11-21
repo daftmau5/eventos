@@ -52,7 +52,7 @@ public class ControllerReservaEvento extends HttpServlet {
 
 			msg = "Você não está logado";
 			session.setAttribute("MENSAGEM", msg); //
-			response.sendRedirect("./ControllerPesquisaEvento");
+			response.sendRedirect("./");
 
 		}
 

@@ -48,6 +48,8 @@
 
 <body>
 
+		<div id="wrapper">
+
 	<%
 		DAOAtracao ad = new DAOAtracao();
 			String msg = (String)session.getAttribute("MENSAGEM");
@@ -82,7 +84,7 @@
 					<ul>
 						<a href="./ControllerPesquisaEvento">Buscar</a>
 						<a href="./ControllerCadastroEvento">Cadastrar</a>
-						<a href="#">Reservas</a>
+						<a href="./ControllerReservaEvento">Reservas</a>
 					</ul>
 				</li>
 				<li>
@@ -117,6 +119,8 @@
 		<!-- Page Content -->
 		<a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle">Menu</a>
 		<div id="page-content-wrapper">
+		
+
 		
 		<form id="formBuscaAtracao" action="./ControlerBuscaAtracao" method="post">
 			<div class="container-fluid">
@@ -176,8 +180,8 @@
 						
 		</div>
 		<!-- /#page-content-wrapper -->
-
-	</div>
+</div>
+	
 	<!-- /#wrapper -->
 
 	<!-- Bootstrap core JavaScript -->

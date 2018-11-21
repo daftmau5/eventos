@@ -75,7 +75,7 @@ function efetua_pagamento( id ) {
 					<ul>
 						<a href="./ControllerPesquisaEvento">Buscar</a>
 						<a href="./ControllerCadastroEvento">Cadastrar</a>
-						<a href="#">Reservas</a>
+						<a href="./ControllerReservaEvento">Reservas</a>
 					</ul>
 				</li>
 				<li>

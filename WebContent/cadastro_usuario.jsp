@@ -80,27 +80,27 @@ $("#txtCPF").keydown(function(){
 				<h1>Cadastre-se</h1>
 				<div class="form-group">
 					<label for="login">Login:</label> 
-					<input type="text" class="form-control" name="txtLogin" placeholder="Digite um nome de usuário">
+					<input required type="text" class="form-control" name="txtLogin" placeholder="Digite um nome de usuário">
 				</div>
 				<div class="form-group">
 					<label for="senha">Senha:</label> 
-					<input type="password" class="form-control" name="txtSenha" placeholder="Digite uma senha">
+					<input required type="password" class="form-control" name="txtSenha" placeholder="Digite uma senha">
 				</div>
 				<div class="form-group">
 					<label for="cpf">CPF:</label> 
-					<input type="text" class="form-control" name="txtCPF">
+					<input required type="text" class="form-control" name="txtCPF">
 				</div>
 				<div class="form-group">
 					<label for="email">E-Mail:</label> 
-					<input type="email" class="form-control" name="txtEmail" placeholder="Digite um email">
+					<input required type="email" class="form-control" name="txtEmail" placeholder="Digite um email">
 				</div>
 				<div class="form-group">
 					<label for="endereco">Endereço:</label> 
-					<input type="text" class="form-control" name="txtEndereco" placeholder="Digite um endereço">
+					<input required type="text" class="form-control" name="txtEndereco" placeholder="Digite um endereço">
 				</div>
 				<div class="form-group">
 					<label for="telefone">Telefone:</label> 
-					<input type="text" class="form-control" name="txtTelefone" placeholder="Digite um telefone">
+					<input required type="text" class="form-control" name="txtTelefone" placeholder="Digite um telefone">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="cmd" value="cadastrar">Cadastrar</button>

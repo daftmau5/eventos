@@ -79,7 +79,7 @@
 					<ul>
 						<a href="./ControllerPesquisaEvento">Buscar</a>
 						<a href="./ControllerCadastroEvento">Cadastrar</a>
-						<a href="#">Reservas</a>
+						<a href="./ControllerReservaEvento">Reservas</a>
 					</ul>
 				</li>
 				<li>
@@ -118,7 +118,7 @@
 				<div class="container-fluid">
 					<h1>Cadastro de Eventos</h1>
 					<div class="form-group">
-						<label for="nome">Descrição:</label> <input type="text"
+						<label for="nome">Descrição:</label> <input required type="text"
 							class="form-control" name="txtDescricaoEvento"
 							placeholder="Digite a Descrição do Evento">
 					</div>
@@ -140,7 +140,7 @@
 					<div class="form-group">
 						<label for="data-pagamento">Data:</label>
 						<div class="input-group date" data-date-format="dd.mm.yyyy">
-							<input type="text" class="form-control" placeholder="dd.mm.yyyy"
+							<input required type="text" class="form-control" placeholder="dd.mm.yyyy"
 								name="txtDataEvento">
 							<div class="input-group-addon">
 								<span class="glyphicon glyphicon-th"></span>
@@ -182,7 +182,7 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="preco">Preço:</label> <input id="preco" type="text"
+						<label for="preco">Preço:</label> <input required id="preco" type="text"
 							class="preco form-control" name="txtPrecoEvento" placeholder="R$" style="display:inline-block">
 					</div>
 

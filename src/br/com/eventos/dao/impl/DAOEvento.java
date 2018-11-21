@@ -121,7 +121,7 @@ public class DAOEvento {
 		}
 	}
 
-	public void excluir(int id) {
+	public String excluir(int id) {
 
 		try {
 
@@ -130,9 +130,12 @@ public class DAOEvento {
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, id);
 			stmt.executeUpdate();
+			return "Evento com id " + id + " deletado";
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return "Erro ao deletar: Alguém está participando desse evento";
+
 		}
 	}
 	

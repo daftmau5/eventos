@@ -19,7 +19,7 @@ public class ConnectionFactory {
 		try {
 			// Class.forName("com.mysql.jdbc.Driver");
 			Class.forName("org.mariadb.jdbc.Driver");
-			String urldb = "jdbc:mariadb://sql10.freemysqlhosting.net/sql10264413?user=sql10264413&password=cvbBJqBPmf";
+			String urldb = "jdbc:mariadb://127.0.0.1:54654/eventos?user=azure&password=6#vWHD_$";
 			if (con != null) {
 				System.out.println("Utilizando coonexão existente");
 			} else {

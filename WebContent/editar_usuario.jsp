@@ -71,7 +71,7 @@ Usuario usuarioAtual = (Usuario)session.getAttribute("USUARIO_LOGADO");
 					<ul>
 						<a href="./ControllerPesquisaEvento">Buscar</a>
 						<a href="./ControllerCadastroEvento">Cadastrar</a>
-						<a href="#">Reservas</a>
+						<a href="./ControllerReservaEvento">Reservas</a>
 					</ul>
 				</li>
 				<li>
@@ -112,27 +112,27 @@ Usuario usuarioAtual = (Usuario)session.getAttribute("USUARIO_LOGADO");
 				<input type="text" name="txtIdUsuario" readonly hidden="true" value="<%=usuarioAtual.getIdUsuario()%>">
 				<div class="form-group">
 					<label for="login">Login:</label> 
-					<input type="text" class="form-control" name="txtLogin" readonly placeholder="Digite um nome de usuário" value="<%=usuarioAtual.getLogin()%>">
+					<input required type="text" class="form-control" name="txtLogin" readonly placeholder="Digite um nome de usuário" value="<%=usuarioAtual.getLogin()%>">
 				</div>
 				<div class="form-group">
 					<label for="senha">Senha:</label> 
-					<input type="password" class="form-control" name="txtSenha" placeholder="Digite uma senha" value="<%=usuarioAtual.getSenha()%>">
+					<input required type="password" class="form-control" name="txtSenha" placeholder="Digite uma senha" value="<%=usuarioAtual.getSenha()%>">
 				</div>
 				<div class="form-group">
 					<label for="cpf">CPF:</label> 
-					<input type="text" class="form-control" name="txtCPF" value="<%=usuarioAtual.getCPF()%>">
+					<input required type="text" class="form-control" name="txtCPF" value="<%=usuarioAtual.getCPF()%>">
 				</div>
 				<div class="form-group">
 					<label for="email">E-Mail:</label> 
-					<input type="email" class="form-control" name="txtEmail" placeholder="Digite um email" value="<%=usuarioAtual.getEmail()%>">
+					<input required type="email" class="form-control" name="txtEmail" placeholder="Digite um email" value="<%=usuarioAtual.getEmail()%>">
 				</div>
 				<div class="form-group">
 					<label for="endereco">Endereço:</label> 
-					<input type="text" class="form-control" name="txtEndereco" placeholder="Digite um endereço" value="<%=usuarioAtual.getEndereco()%>">
+					<input required  type="text" class="form-control" name="txtEndereco" placeholder="Digite um endereço" value="<%=usuarioAtual.getEndereco()%>">
 				</div>
 				<div class="form-group">
 					<label for="telefone">Telefone:</label> 
-					<input type="text" class="form-control" name="txtTelefone" placeholder="Digite um telefone" value="<%=usuarioAtual.getTelefone()%>">
+					<input required type="text" class="form-control" name="txtTelefone" placeholder="Digite um telefone" value="<%=usuarioAtual.getTelefone()%>">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="cmd" value="editar">Alterar</button>

@@ -87,7 +87,7 @@
 					<ul>
 						<a href="./ControllerPesquisaEvento">Buscar</a>
 						<a href="./ControllerCadastroEvento">Cadastrar</a>
-						<a href="#">Reservas</a>
+						<a href="./ControllerReservaEvento">Reservas</a>
 					</ul>
 				</li>
 				<li>
@@ -139,35 +139,35 @@
   				</div>--><%}else{ %>
   				<div class="form-group">
     				<label for="txtId">Id</label>
-    				<input type="text" class="form-control" id="txtId" name="txtId" value="<%=localAtual.getIdLocal()%>" readonly/>
+    				<input  type="text" class="form-control" id="txtId" name="txtId" value="<%=localAtual.getIdLocal()%>" readonly/>
   				</div><%} %>
 				
 				<div class="form-group">
 					<label for="nome">Nome:</label> 
-					<input type="text" class="form-control" id="txtNomeLocal" name="txtNomeLocal" placeholder="Digite o Nome do local" value="<%=localAtual.getNome()%>">
+					<input  type="text" class="form-control" id="txtNomeLocal" name="txtNomeLocal" placeholder="Digite o Nome do local" value="<%=localAtual.getNome()%>">
 				</div>
 				<div class="form-group">
 					<label for="nome">Telefone:</label> 
-					<input type="text" class="form-control" id="txtTelefone" name="txtTelefone" placeholder="Digite o telefone:" value="<%=localAtual.getTelefone()%>">
+					<input  type="text" class="form-control" id="txtTelefone" name="txtTelefone" placeholder="Digite o telefone:" value="<%=localAtual.getTelefone()%>">
 				</div>
 
 				<div class="form-group">
 					<label for="nome">Capacidade:</label> 
-					<input type="text" class="form-control" id="txtCapacidade" name="txtCapacidade" placeholder="Digite a capacidade do ambiente" value="<%=localAtual.getCapacidade()%>">
+					<input  type="text" class="form-control" id="txtCapacidade" name="txtCapacidade" placeholder="Digite a capacidade do ambiente" value="<%=localAtual.getCapacidade()%>">
 				</div>
 
 				<div class="form-check form-check-inline">
-  				<input class="form-check-input" type="radio" name="txtAreaFumante" id="txtAreaFumante" value="fumante"/>
+  				<input  class="form-check-input" type="radio" name="txtAreaFumante" id="txtAreaFumante" value="fumante"/>
   				<label class="form-check-label" for="txtAreaFumante">Fumante</label>
 			</div>				
 			<div class="form-check form-check-inline">
-  				<input class="form-check-input" type="radio" name="txtAreaFumante" id="txtAreaFumante" value="naofumante">
+  				<input  class="form-check-input" type="radio" name="txtAreaFumante" id="txtAreaFumante" value="naofumante">
   				<label class="form-check-label" for="txtAreaFumante">Não fumante</label>
 			</div>										
 			
 			<div class="form-group">
 					<label for="nome">Endereço:</label> 
-					<input type="text" class="form-control" id="txtEndereco" name="txtEndereco" placeholder="Digite o endereco" value="<%=localAtual.getEndereco()%>">
+					<input  type="text" class="form-control" id="txtEndereco" name="txtEndereco" placeholder="Digite o endereco" value="<%=localAtual.getEndereco()%>">
 				</div>
 
 
