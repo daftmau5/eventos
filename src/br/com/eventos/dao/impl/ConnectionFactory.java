@@ -17,6 +17,7 @@ public class ConnectionFactory {
 
 	public ConnectionFactory() {
 		try {
+			
 			// Class.forName("com.mysql.jdbc.Driver");
 			Class.forName("org.mariadb.jdbc.Driver");
 			String urldb = "jdbc:mariadb://127.0.0.1:54654/eventos?user=azure&password=6#vWHD_$";
